@@ -13,14 +13,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let splitViewController = self.window!.rootViewController as! UISplitViewController
         let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         splitViewController.delegate = self
+        
+        application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil))
+        
+        //UINavigationBar.appearance().tintColor = UIColor(red: 0.08, green: 0.65, blue: 0.08, alpha: 1.0)
+        UIApplication.shared.statusBarStyle = .lightContent
+
         return true
+    }
+    
+    var vc = MasterViewController()
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        
+        DispatchQueue.main.async {
+            
+            self.vc.tableTitle.removeAll()
+            self.vc.tableBody.removeAll()
+            self.vc.tableDate.removeAll()
+            self.vc.getJSON()
+            self.vc.tableView.reloadData()
+            self.vc.refreshControl?.endRefreshing()
+            print("refreshed from notification")
+            
+        }
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

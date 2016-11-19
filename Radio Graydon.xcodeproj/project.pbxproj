@@ -11,10 +11,16 @@
 		56441BDC1DAC30560080F48E /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BDB1DAC30560080F48E /* MasterViewController.swift */; };
 		56441BDE1DAC30560080F48E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BDD1DAC30560080F48E /* DetailViewController.swift */; };
 		56441BE11DAC30560080F48E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56441BDF1DAC30560080F48E /* Main.storyboard */; };
-		56441BE31DAC30560080F48E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56441BE21DAC30560080F48E /* Assets.xcassets */; };
 		56441BE61DAC30560080F48E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56441BE41DAC30560080F48E /* LaunchScreen.storyboard */; };
 		56441BF11DAC30570080F48E /* Radio_GraydonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BF01DAC30570080F48E /* Radio_GraydonTests.swift */; };
 		56441BFC1DAC30570080F48E /* Radio_GraydonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */; };
+		566BCC841DC6602E0043FD41 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BCC831DC6602E0043FD41 /* UserNotifications.framework */; };
+		566BCC861DC6602E0043FD41 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */; };
+		566BCC891DC6602E0043FD41 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566BCC881DC6602E0043FD41 /* NotificationViewController.swift */; };
+		566BCC8C1DC6602E0043FD41 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */; };
+		566BCC901DC6602E0043FD41 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 566BCC821DC6602E0043FD41 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		56A88B181DB10CFD00451B25 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56A88B171DB10CFD00451B25 /* Images.xcassets */; };
+		A2314DF521B24C9C519F93AB /* Pods_Radio_Graydon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95F39175C10D6476A2FB6F00 /* Pods_Radio_Graydon.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +38,28 @@
 			remoteGlobalIDString = 56441BD51DAC30560080F48E;
 			remoteInfo = "Radio Graydon";
 		};
+		566BCC8E1DC6602E0043FD41 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 56441BCE1DAC30560080F48E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 566BCC811DC6602E0043FD41;
+			remoteInfo = Extension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		566BCC941DC6602E0043FD41 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				566BCC901DC6602E0043FD41 /* Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		56441BD61DAC30560080F48E /* Radio Graydon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Radio Graydon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,7 +67,6 @@
 		56441BDB1DAC30560080F48E /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		56441BDD1DAC30560080F48E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		56441BE01DAC30560080F48E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		56441BE21DAC30560080F48E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		56441BE51DAC30560080F48E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		56441BE71DAC30560080F48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56441BEC1DAC30570080F48E /* Radio GraydonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Radio GraydonTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +75,16 @@
 		56441BF71DAC30570080F48E /* Radio GraydonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Radio GraydonUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radio_GraydonUITests.swift; sourceTree = "<group>"; };
 		56441BFD1DAC30570080F48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		566BCC821DC6602E0043FD41 /* Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Extension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		566BCC831DC6602E0043FD41 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		566BCC881DC6602E0043FD41 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		566BCC8B1DC6602E0043FD41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		566BCC8D1DC6602E0043FD41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56A88B171DB10CFD00451B25 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8F46C92A5472C17D4666558D /* Pods-Radio Graydon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Radio Graydon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Radio Graydon/Pods-Radio Graydon.debug.xcconfig"; sourceTree = "<group>"; };
+		95F39175C10D6476A2FB6F00 /* Pods_Radio_Graydon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Radio_Graydon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DED498DA3EB7130A08C971FD /* Pods-Radio Graydon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Radio Graydon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Radio Graydon/Pods-Radio Graydon.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2314DF521B24C9C519F93AB /* Pods_Radio_Graydon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +110,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		566BCC7F1DC6602E0043FD41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				566BCC861DC6602E0043FD41 /* UserNotificationsUI.framework in Frameworks */,
+				566BCC841DC6602E0043FD41 /* UserNotifications.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -82,7 +128,10 @@
 				56441BD81DAC30560080F48E /* Radio Graydon */,
 				56441BEF1DAC30570080F48E /* Radio GraydonTests */,
 				56441BFA1DAC30570080F48E /* Radio GraydonUITests */,
+				566BCC871DC6602E0043FD41 /* Extension */,
 				56441BD71DAC30560080F48E /* Products */,
+				5F16D2DAB2835CA74545383C /* Pods */,
+				E6574359A3FC44C3800784FD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +141,7 @@
 				56441BD61DAC30560080F48E /* Radio Graydon.app */,
 				56441BEC1DAC30570080F48E /* Radio GraydonTests.xctest */,
 				56441BF71DAC30570080F48E /* Radio GraydonUITests.xctest */,
+				566BCC821DC6602E0043FD41 /* Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,9 +153,9 @@
 				56441BDB1DAC30560080F48E /* MasterViewController.swift */,
 				56441BDD1DAC30560080F48E /* DetailViewController.swift */,
 				56441BDF1DAC30560080F48E /* Main.storyboard */,
-				56441BE21DAC30560080F48E /* Assets.xcassets */,
 				56441BE41DAC30560080F48E /* LaunchScreen.storyboard */,
 				56441BE71DAC30560080F48E /* Info.plist */,
+				56A88B171DB10CFD00451B25 /* Images.xcassets */,
 			);
 			path = "Radio Graydon";
 			sourceTree = "<group>";
@@ -128,6 +178,35 @@
 			path = "Radio GraydonUITests";
 			sourceTree = "<group>";
 		};
+		566BCC871DC6602E0043FD41 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				566BCC881DC6602E0043FD41 /* NotificationViewController.swift */,
+				566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */,
+				566BCC8D1DC6602E0043FD41 /* Info.plist */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		5F16D2DAB2835CA74545383C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8F46C92A5472C17D4666558D /* Pods-Radio Graydon.debug.xcconfig */,
+				DED498DA3EB7130A08C971FD /* Pods-Radio Graydon.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E6574359A3FC44C3800784FD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				95F39175C10D6476A2FB6F00 /* Pods_Radio_Graydon.framework */,
+				566BCC831DC6602E0043FD41 /* UserNotifications.framework */,
+				566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,13 +214,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56441C001DAC30570080F48E /* Build configuration list for PBXNativeTarget "Radio Graydon" */;
 			buildPhases = (
+				150DFC8B19D117622C5D40B9 /* [CP] Check Pods Manifest.lock */,
 				56441BD21DAC30560080F48E /* Sources */,
 				56441BD31DAC30560080F48E /* Frameworks */,
 				56441BD41DAC30560080F48E /* Resources */,
+				A5FCFDB339A6A2F12BA61FAE /* [CP] Embed Pods Frameworks */,
+				0DC788993852EE427C30C3E7 /* [CP] Copy Pods Resources */,
+				566BCC941DC6602E0043FD41 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				566BCC8F1DC6602E0043FD41 /* PBXTargetDependency */,
 			);
 			name = "Radio Graydon";
 			productName = "Radio Graydon";
@@ -184,13 +268,30 @@
 			productReference = 56441BF71DAC30570080F48E /* Radio GraydonUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		566BCC811DC6602E0043FD41 /* Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 566BCC931DC6602E0043FD41 /* Build configuration list for PBXNativeTarget "Extension" */;
+			buildPhases = (
+				566BCC7E1DC6602E0043FD41 /* Sources */,
+				566BCC7F1DC6602E0043FD41 /* Frameworks */,
+				566BCC801DC6602E0043FD41 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Extension;
+			productName = Extension;
+			productReference = 566BCC821DC6602E0043FD41 /* Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		56441BCE1DAC30560080F48E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0800;
+				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Omar Abbasi";
 				TargetAttributes = {
@@ -211,6 +312,11 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 56441BD51DAC30560080F48E;
 					};
+					566BCC811DC6602E0043FD41 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = NU9CBG8KLT;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 56441BD11DAC30560080F48E /* Build configuration list for PBXProject "Radio Graydon" */;
@@ -229,6 +335,7 @@
 				56441BD51DAC30560080F48E /* Radio Graydon */,
 				56441BEB1DAC30570080F48E /* Radio GraydonTests */,
 				56441BF61DAC30570080F48E /* Radio GraydonUITests */,
+				566BCC811DC6602E0043FD41 /* Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -238,8 +345,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56A88B181DB10CFD00451B25 /* Images.xcassets in Resources */,
 				56441BE61DAC30560080F48E /* LaunchScreen.storyboard in Resources */,
-				56441BE31DAC30560080F48E /* Assets.xcassets in Resources */,
 				56441BE11DAC30560080F48E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,7 +365,63 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		566BCC801DC6602E0043FD41 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				566BCC8C1DC6602E0043FD41 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0DC788993852EE427C30C3E7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Radio Graydon/Pods-Radio Graydon-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		150DFC8B19D117622C5D40B9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A5FCFDB339A6A2F12BA61FAE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Radio Graydon/Pods-Radio Graydon-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		56441BD21DAC30560080F48E /* Sources */ = {
@@ -287,6 +450,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		566BCC7E1DC6602E0043FD41 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				566BCC891DC6602E0043FD41 /* NotificationViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -299,6 +470,11 @@
 			isa = PBXTargetDependency;
 			target = 56441BD51DAC30560080F48E /* Radio Graydon */;
 			targetProxy = 56441BF81DAC30570080F48E /* PBXContainerItemProxy */;
+		};
+		566BCC8F1DC6602E0043FD41 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 566BCC811DC6602E0043FD41 /* Extension */;
+			targetProxy = 566BCC8E1DC6602E0043FD41 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -317,6 +493,14 @@
 				56441BE51DAC30560080F48E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				566BCC8B1DC6602E0043FD41 /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -417,27 +601,35 @@
 		};
 		56441C011DAC30570080F48E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F46C92A5472C17D4666558D /* Pods-Radio Graydon.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = NU9CBG8KLT;
 				INFOPLIST_FILE = "Radio Graydon/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.omar.Radio-Graydon";
+				PRODUCT_BUNDLE_IDENTIFIER = com.carol.radiograydon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		56441C021DAC30570080F48E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DED498DA3EB7130A08C971FD /* Pods-Radio Graydon.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = NU9CBG8KLT;
 				INFOPLIST_FILE = "Radio Graydon/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.omar.Radio-Graydon";
+				PRODUCT_BUNDLE_IDENTIFIER = com.carol.radiograydon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -499,6 +691,34 @@
 			};
 			name = Release;
 		};
+		566BCC911DC6602E0043FD41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NU9CBG8KLT;
+				INFOPLIST_FILE = Extension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.carol.radiograydon.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		566BCC921DC6602E0043FD41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = NU9CBG8KLT;
+				INFOPLIST_FILE = Extension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.carol.radiograydon.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -518,6 +738,7 @@
 				56441C021DAC30570080F48E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		56441C031DAC30570080F48E /* Build configuration list for PBXNativeTarget "Radio GraydonTests" */ = {
 			isa = XCConfigurationList;
@@ -526,6 +747,7 @@
 				56441C051DAC30570080F48E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		56441C061DAC30570080F48E /* Build configuration list for PBXNativeTarget "Radio GraydonUITests" */ = {
 			isa = XCConfigurationList;
@@ -534,6 +756,16 @@
 				56441C081DAC30570080F48E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		566BCC931DC6602E0043FD41 /* Build configuration list for PBXNativeTarget "Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				566BCC911DC6602E0043FD41 /* Debug */,
+				566BCC921DC6602E0043FD41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
