@@ -42,16 +42,6 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         //view stuff
         reportButton.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         
-        if detailDescriptionLabel.text == "Title" && detailTitleLabel.text == "" && detailDateLabel.text == "" {
-            
-            let emptyMessage = UILabel(frame: CGRect.init(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
-            emptyMessage.text = "Looks like you have no announcement selected. Tap an announcement to see more details about it!"
-            emptyMessage.textColor = UIColor.black
-            emptyMessage.numberOfLines = 0
-            emptyMessage.sizeToFit()
-            
-        }
-        
         //navigation bar customization
         self.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         UINavigationBar.appearance().tintColor = UIColor.white //UIColor(red:1.00, green:0.93, blue:0.10, alpha:1.0)
