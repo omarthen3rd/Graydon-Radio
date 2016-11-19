@@ -225,7 +225,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
     //refresh tableView
     func refreshTableView() {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
             self.tableTitle.removeAll()
             self.tableBody.removeAll()
@@ -402,7 +402,6 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
         let searchPredicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchController.searchBar.text!)
         let array = (tableTitle as NSArray).filtered(using: searchPredicate)
         let detailArray = (tableBody as NSArray).filtered(using: searchPredicate)
-        let dateArray = (tableDate as NSArray).filtered(using: searchPredicate)
         filteredTableData = array as! [String]
         filteredTableData2 = detailArray as! [String]
         self.tableView.reloadData()
