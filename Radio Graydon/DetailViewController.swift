@@ -58,9 +58,10 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         } else {
             // Fallback on earlier versions
         }
-        self.configureView()
+        //self.configureView()
         self.configureViewTwo()
-        self.configureViewThree()
+        //self.configureViewThree()
+        self.configureAnnView()
         detailTitleLabel.sizeToFit()
     }
     
@@ -89,6 +90,18 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 labelThree.text = detailThree.description
             }
         }
+    }
+    
+    func configureAnnView() {
+        
+        if let detailFour = self.annDetailItem {
+            if let labelFour = self.detailDescriptionLabel {
+                labelFour.text = annDetailItem?.annTitle
+                detailTitleLabel.text = annDetailItem?.annBody
+                
+            }
+        }
+        
     }
 
     var timeToRemind = 0
@@ -364,6 +377,12 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
     var detailItemThree: String? {
         didSet {
             self.configureViewThree()
+        }
+    }
+    
+    var annDetailItem: Announcement? {
+        didSet {
+            
         }
     }
 }

@@ -14,6 +14,7 @@
 		56441BE61DAC30560080F48E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56441BE41DAC30560080F48E /* LaunchScreen.storyboard */; };
 		56441BF11DAC30570080F48E /* Radio_GraydonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BF01DAC30570080F48E /* Radio_GraydonTests.swift */; };
 		56441BFC1DAC30570080F48E /* Radio_GraydonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */; };
+		5646E6761DE21F38003C7CDD /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5646E6751DE21F38003C7CDD /* Announcement.swift */; };
 		566BCC841DC6602E0043FD41 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BCC831DC6602E0043FD41 /* UserNotifications.framework */; };
 		566BCC861DC6602E0043FD41 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */; };
 		566BCC891DC6602E0043FD41 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566BCC881DC6602E0043FD41 /* NotificationViewController.swift */; };
@@ -75,6 +76,7 @@
 		56441BF71DAC30570080F48E /* Radio GraydonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Radio GraydonUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radio_GraydonUITests.swift; sourceTree = "<group>"; };
 		56441BFD1DAC30570080F48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5646E6751DE21F38003C7CDD /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
 		566BCC821DC6602E0043FD41 /* Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Extension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		566BCC831DC6602E0043FD41 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
@@ -150,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				56441BD91DAC30560080F48E /* AppDelegate.swift */,
+				5646E6751DE21F38003C7CDD /* Announcement.swift */,
 				56441BDB1DAC30560080F48E /* MasterViewController.swift */,
 				56441BDD1DAC30560080F48E /* DetailViewController.swift */,
 				56441BDF1DAC30560080F48E /* Main.storyboard */,
@@ -428,6 +431,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5646E6761DE21F38003C7CDD /* Announcement.swift in Sources */,
 				56441BDE1DAC30560080F48E /* DetailViewController.swift in Sources */,
 				56441BDC1DAC30560080F48E /* MasterViewController.swift in Sources */,
 				56441BDA1DAC30560080F48E /* AppDelegate.swift in Sources */,

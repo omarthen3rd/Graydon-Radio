@@ -116,14 +116,14 @@ class CustomTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
         var cellView = self.accessoryView?.frame
-        cellView?.origin.y = 13
+        cellView?.origin.y = 13.5
         self.accessoryView?.frame = cellView!
         
     }
 
 }
 
-class MasterViewController: UITableViewController, UISearchResultsUpdating {
+class MasterViewController: UITableViewController, UISearchBarDelegate {
 
     var detailViewController: DetailViewController? = nil
     
@@ -132,17 +132,15 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
     var tableDate = [String]()
     var detailDate = [String]()
     
-    var filteredTableData = [String]()
-    var filteredTableData2 = [String]()
-    var filteredTableData3 = [String]()
+    var annTitle = String()
+    var annBody = String()
     
-    var resultSearchController = UISearchController()
+    var announcements = [Announcement]()
+    var filteredAnnouncements = [Announcement]()
     
-    /* TODO 
-     
-        Reminder Alerts (EventKit)
-     
-     */
+    var resultSearchController = UISearchController(searchResultsController: nil)
+    
+    /* TODO */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -187,6 +185,7 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
             controller.searchBar.barTintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+            controller.searchBar.searchBarStyle = UISearchBarStyle.default
             controller.searchBar.backgroundColor = UIColor.clear
             controller.searchBar.tintColor = UIColor.white
             UIApplication.shared.statusBarStyle = .lightContent
@@ -209,7 +208,8 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
         //hide search after selecting cell
         definesPresentationContext = true
         
-        getJSON()
+        //getJSON()
+        getAnnouncements()
         
     }
     
@@ -227,19 +227,17 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
-            self.tableTitle.removeAll()
-            self.tableBody.removeAll()
+            self.announcements.removeAll()
             self.tableDate.removeAll()
-            self.getJSON()
+            self.getAnnouncements()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             
         })
-
     }
     
-    //get the get announcements from server
-    func getJSON() {
+    //get announcements from server
+    func getAnnouncements() {
         
         Alamofire.request("https://radiograydon.aubble.com/announcements").responseJSON { (Response) in
             
@@ -247,29 +245,24 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
                 
                 let json = JSON(value)
                 
-                for anItem in json.array! {
+                for annItem in json.array! {
                     
-                    let title: String? = anItem["title"].stringValue
-                    let dateString = anItem["date"].dateTime!
-                    let body: String? = anItem["body"].stringValue
-                    self.tableTitle.append(title!)
-                    self.tableBody.append(body!)
+                    let newAnn : Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue)
+                    self.announcements.append(newAnn)
                     
                     let dateFormatter = DateFormatter()
                     let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
                     dateFormatter.locale = enCAPosixLocale as Locale!
                     dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
-                    //dateFormatter.dateStyle = .MediumStyle
-                    //dateFormatter.timeStyle = .NoStyle
                     dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
-                    let displayString = dateFormatter.string(from: anItem["date"].dateTime! as Date)
+                    let displayString = dateFormatter.string(from: annItem["date"].dateTime! as Date)
                     self.detailDate.append(displayString)
                     
                     let dateFormatterCell = DateFormatter()
                     let enCAlocale = NSLocale(localeIdentifier: "en_CA")
                     dateFormatterCell.locale = enCAlocale as Locale!
                     dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
-                    let displayStringCell = dateFormatterCell.string(from: anItem["date"].dateTime! as Date)
+                    let displayStringCell = dateFormatterCell.string(from: annItem["date"].dateTime! as Date)
                     self.tableDate.append(displayStringCell)
                     
                 }
@@ -283,6 +276,15 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
             }
             
         }
+        
+    }
+    
+    func filterContentForSearchText(searchText: String) {
+        
+        filteredAnnouncements = announcements.filter({ (announcement) -> Bool in
+            return announcement.annTitle.lowercased().contains(searchText.lowercased())
+        })
+        self.tableView.reloadData()
         
     }
 
@@ -315,28 +317,25 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 
-                var object = tableTitle[indexPath.row] as String
-                var objectTwo = tableBody[indexPath.row] as String
+                let annDetail : Announcement
                 var objectThree = detailDate[indexPath.row] as String
                 
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 
                 if resultSearchController.isActive {
                     
-                    object = filteredTableData[indexPath.row]
-                    objectTwo = filteredTableData2[indexPath.row]
+                    annDetail = filteredAnnouncements[indexPath.row]
                     
                 } else {
                     
-                    object = tableTitle[indexPath.row]
-                    objectTwo = tableBody[indexPath.row]
-                    objectThree = detailDate[indexPath.row]
+                    annDetail = announcements[indexPath.row]
                     
                 }
                 
-                controller.detailItem = object
+                //controller.detailItem = object
                 controller.detailItemTwo = objectThree
-                controller.detailItemThree = objectTwo
+                //controller.detailItemThree = objectTwo
+                controller.annDetailItem = annDetail
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
@@ -363,11 +362,11 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
         
         if self.resultSearchController.isActive {
             
-            return self.filteredTableData.count
+            return self.filteredAnnouncements.count
 
         } else {
             
-            return tableTitle.count
+            return announcements.count
             
         }
     }
@@ -375,40 +374,39 @@ class MasterViewController: UITableViewController, UISearchResultsUpdating {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         
+        var announcement : Announcement
+        
+        let objectThree = tableDate[indexPath.row]
+        
         let imageView = UIImage(named: "dIndicator")
         cell.accessoryView = UIImageView(image: imageView)
         
-        let object = tableTitle[indexPath.row]
-        let objectTwo = tableBody[indexPath.row]
-        let objectThree = tableDate[indexPath.row]
-        
-        if self.resultSearchController.isActive {
-            cell.titleLabel!.text = filteredTableData[indexPath.row]
-            cell.detailLabel!.text = filteredTableData2[indexPath.row]
-            cell.dateLabel!.text = ""
-
+        if self.resultSearchController.isActive && resultSearchController.searchBar.text != "" {
+            
+            announcement = filteredAnnouncements[indexPath.row]
+            
         } else {
-            cell.titleLabel!.text = object
-            cell.detailLabel!.text = objectTwo
-            cell.dateLabel!.text = objectThree
+            
+            announcement = announcements[indexPath.row]
+            
         }
         
+        cell.titleLabel.text = announcement.annTitle
+        cell.detailLabel.text = announcement.annBody
+        cell.dateLabel.text = objectThree
+        
         return cell
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
-        filteredTableData.removeAll(keepingCapacity: false)
-        let searchPredicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchController.searchBar.text!)
-        let array = (tableTitle as NSArray).filtered(using: searchPredicate)
-        let detailArray = (tableBody as NSArray).filtered(using: searchPredicate)
-        filteredTableData = array as! [String]
-        filteredTableData2 = detailArray as! [String]
-        self.tableView.reloadData()
-        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70.0
     }
+}
+
+extension MasterViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+    
 }
