@@ -33,10 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         DispatchQueue.main.async {
             
-            self.vc.tableTitle.removeAll()
-            self.vc.tableBody.removeAll()
+            self.vc.announcements.removeAll()
             self.vc.tableDate.removeAll()
-            self.vc.getJSON()
+            self.vc.getAnnouncements()
             self.vc.tableView.reloadData()
             self.vc.refreshControl?.endRefreshing()
             print("refreshed from notification")

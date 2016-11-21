@@ -391,9 +391,27 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             
         }
         
+        let today = Date()
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.setLocalizedDateFormatFromTemplate("MMM d")
+        let todayDate = dateFormatter2.string(from: today)
+    
+        let oneDayAgo = today.addingTimeInterval(-1*60*60*24)
+        let yesterDateFormatter = DateFormatter()
+        yesterDateFormatter.setLocalizedDateFormatFromTemplate("MMM d")
+        let yesterDate = yesterDateFormatter.string(from: oneDayAgo)
+        
         cell.titleLabel.text = announcement.annTitle
         cell.detailLabel.text = announcement.annBody
         cell.dateLabel.text = objectThree
+        
+        if cell.dateLabel.text == todayDate {
+            cell.dateLabel.text = "Today"
+        }
+        
+        if cell.dateLabel.text == yesterDate {
+            cell.dateLabel.text = "Yesterday"
+        }
         
         return cell
     }
