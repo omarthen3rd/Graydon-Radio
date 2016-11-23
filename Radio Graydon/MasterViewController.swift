@@ -26,11 +26,13 @@ extension MasterViewController : UIViewControllerPreviewingDelegate {
         
         let titleDetail = tableTitle[indexPath.row]
         let bodyDetail = tableBody[indexPath.row]
+        let annDetail = announcements[indexPath.row]
         let dateDetail = detailDate[indexPath.row]
         
-        DetailVC.detailItem = titleDetail
         DetailVC.detailItemTwo = dateDetail
+        DetailVC.detailItem = titleDetail
         DetailVC.detailItemThree = bodyDetail
+        //DetailVC.annDetailItem = annDetail
         
         previewingContext.sourceRect = cell.frame
         
@@ -44,7 +46,6 @@ extension MasterViewController : UIViewControllerPreviewingDelegate {
         
         //self.navigationController?.pushViewController(detailPop!, animated: true)
         //present(detailPop!, animated: true, completion: nil)
-
         
         present(viewControllerToCommit, animated: true, completion: nil)
         
@@ -208,7 +209,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         //hide search after selecting cell
         definesPresentationContext = true
         
-        //getJSON()
         getAnnouncements()
         
     }
@@ -248,6 +248,10 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 for annItem in json.array! {
                     
                     let newAnn : Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue)
+                    let title: String = annItem["title"].stringValue
+                    let body: String = annItem["body"].stringValue
+                    self.tableTitle.append(title)
+                    self.tableBody.append(body)
                     self.announcements.append(newAnn)
                     
                     let dateFormatter = DateFormatter()
@@ -296,9 +300,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         dateComp.second = 00
         dateComp.timeZone = TimeZone.current
         
-        var calendar = Calendar(identifier: Calendar.Identifier.gregorian)
-        var date = calendar.date(from: dateComp)
-        print(date)
+        let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
+        let date = calendar.date(from: dateComp)
         
         let localNotification: UILocalNotification = UILocalNotification()
         localNotification.alertTitle = "New Radio Graydon Announcements"
@@ -318,7 +321,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 
                 let annDetail : Announcement
-                var objectThree = detailDate[indexPath.row] as String
+                let objectThree = detailDate[indexPath.row] as String
                 
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 
@@ -407,10 +410,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if cell.dateLabel.text == todayDate {
             cell.dateLabel.text = "Today"
-        }
-        
-        if cell.dateLabel.text == yesterDate {
-            cell.dateLabel.text = "Yesterday"
         }
         
         return cell

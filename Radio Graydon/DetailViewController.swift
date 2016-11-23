@@ -58,9 +58,9 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         } else {
             // Fallback on earlier versions
         }
-        //self.configureView()
+        self.configureView()
         self.configureViewTwo()
-        //self.configureViewThree()
+        self.configureViewThree()
         self.configureAnnView()
         detailTitleLabel.sizeToFit()
     }
@@ -143,8 +143,8 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 self.timeToRemind = seconds!
                 print(self.timeToRemind)
                 self.remindLater()
-                var alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 10:45 AM tomorrow", preferredStyle: .alert)
-                var alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 10:45 AM tomorrow", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
                 
@@ -152,8 +152,8 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 
                 self.timeToRemind = seconds!
                 self.remindLater()
-                var alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 10:45 AM today", preferredStyle: .alert)
-                var alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 10:45 AM today", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
 
@@ -196,8 +196,8 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 self.timeToRemind = seconds!
                 print(self.timeToRemind)
                 self.remindLater()
-                var alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 2:30 PM tomorrow", preferredStyle: .alert)
-                var alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 2:30 PM tomorrow", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
 
@@ -207,8 +207,8 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 self.timeToRemind = seconds!
                 print(self.timeToRemind)
                 self.remindLater()
-                var alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 2:30 PM today", preferredStyle: .alert)
-                var alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 2:30 PM today", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
 
@@ -241,8 +241,8 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
             self.timeToRemind = seconds!
             print(self.timeToRemind)
             self.remindLater()
-            var alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 8:00 AM tomorrow", preferredStyle: .alert)
-            var alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 8:00 AM tomorrow", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
             alert.addAction(alertAction)
             self.present(alert, animated: true, completion: nil)
 
@@ -382,7 +382,7 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
     
     var annDetailItem: Announcement? {
         didSet {
-            
+            self.configureAnnView()
         }
     }
 }

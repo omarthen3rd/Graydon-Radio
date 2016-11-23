@@ -7,5 +7,6 @@ target 'Radio Graydon' do
 
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 4.0'
+  pod 'HockeySDK', '~> 4.1.2'
 
 end
