@@ -23,17 +23,9 @@ extension MasterViewController : UIViewControllerPreviewingDelegate {
         }
         
         guard let DetailVC = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else { return nil }
-        
-        let titleDetail = tableTitle[indexPath.row]
-        let bodyDetail = tableBody[indexPath.row]
+
         let annDetail = announcements[indexPath.row]
-        let dateDetail = detailDate[indexPath.row]
-        
-        DetailVC.detailItemTwo = dateDetail
-        DetailVC.detailItem = titleDetail
-        DetailVC.detailItemThree = bodyDetail
-        //DetailVC.annDetailItem = annDetail
-        
+        DetailVC.annDetailItem = annDetail
         previewingContext.sourceRect = cell.frame
         
         return DetailVC
@@ -127,21 +119,14 @@ class CustomTableViewCell: UITableViewCell {
 class MasterViewController: UITableViewController, UISearchBarDelegate {
 
     var detailViewController: DetailViewController? = nil
-    
-    var tableTitle = [String]()
-    var tableBody = [String]()
+
     var tableDate = [String]()
     var detailDate = [String]()
-    
-    var annTitle = String()
-    var annBody = String()
     
     var announcements = [Announcement]()
     var filteredAnnouncements = [Announcement]()
     
     var resultSearchController = UISearchController(searchResultsController: nil)
-    
-    /* TODO */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -228,7 +213,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
             self.announcements.removeAll()
-            self.tableDate.removeAll()
             self.getAnnouncements()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
@@ -247,13 +231,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 
                 for annItem in json.array! {
                     
-                    let newAnn : Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue)
-                    let title: String = annItem["title"].stringValue
-                    let body: String = annItem["body"].stringValue
-                    self.tableTitle.append(title)
-                    self.tableBody.append(body)
-                    self.announcements.append(newAnn)
-                    
+                    // date stuff begins
                     let dateFormatter = DateFormatter()
                     let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
                     dateFormatter.locale = enCAPosixLocale as Locale!
@@ -268,6 +246,11 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                     dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
                     let displayStringCell = dateFormatterCell.string(from: annItem["date"].dateTime! as Date)
                     self.tableDate.append(displayStringCell)
+                    // aaaaaand ends
+                    
+                    //let newAnn : Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue)
+                    let newAnn: Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
+                    self.announcements.append(newAnn)
                     
                 }
                 
@@ -321,7 +304,27 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 
                 let annDetail : Announcement
-                let objectThree = detailDate[indexPath.row] as String
+                
+                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                
+                if resultSearchController.isActive {
+                    
+                    annDetail = filteredAnnouncements[indexPath.row]
+                    
+                } else {
+                    
+                    annDetail = announcements[indexPath.row]
+                    
+                }
+
+                controller.annDetailItem = annDetail
+                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+                controller.navigationItem.leftItemsSupplementBackButton = true
+            }
+        } else if let cell = sender as? CustomTableViewCell, segue.identifier == "showDetailPeek" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+            
+                let annDetail : Announcement
                 
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
                 
@@ -335,20 +338,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                     
                 }
                 
-                //controller.detailItem = object
-                controller.detailItemTwo = objectThree
-                //controller.detailItemThree = objectTwo
                 controller.annDetailItem = annDetail
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-                controller.navigationItem.leftItemsSupplementBackButton = true
+                controller.navigationController?.navigationBar.isHidden = true
+                
             }
-        } else if let cell = sender as? CustomTableViewCell, segue.identifier == "showDetailPeek" {
-            
-            let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-            controller.detailItem = cell.titleLabel.text
-            controller.detailItemTwo = cell.dateLabel.text
-            controller.detailItemThree = cell.detailLabel.text
-            controller.navigationController?.navigationBar.isHidden = true
+            //controller.detailItem = cell.titleLabel.text
+            //controller.detailItemTwo = cell.dateLabel.text
+            //controller.detailItemThree = cell.detailLabel.text
             //controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
             //controller.navigationItem.leftItemsSupplementBackButton = true
             
@@ -379,8 +375,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         var announcement : Announcement
         
-        let objectThree = tableDate[indexPath.row]
-        
         let imageView = UIImage(named: "dIndicator")
         cell.accessoryView = UIImageView(image: imageView)
         
@@ -398,15 +392,10 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         let dateFormatter2 = DateFormatter()
         dateFormatter2.setLocalizedDateFormatFromTemplate("MMM d")
         let todayDate = dateFormatter2.string(from: today)
-    
-        let oneDayAgo = today.addingTimeInterval(-1*60*60*24)
-        let yesterDateFormatter = DateFormatter()
-        yesterDateFormatter.setLocalizedDateFormatFromTemplate("MMM d")
-        let yesterDate = yesterDateFormatter.string(from: oneDayAgo)
         
         cell.titleLabel.text = announcement.annTitle
         cell.detailLabel.text = announcement.annBody
-        cell.dateLabel.text = objectThree
+        cell.dateLabel.text = announcement.altAnnDate
         
         if cell.dateLabel.text == todayDate {
             cell.dateLabel.text = "Today"

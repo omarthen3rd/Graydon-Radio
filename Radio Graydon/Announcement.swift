@@ -12,5 +12,7 @@ struct Announcement {
     
     let annTitle: String
     let annBody: String
+    let annDate: String
+    let altAnnDate: String
     
 }

@@ -58,37 +58,14 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         } else {
             // Fallback on earlier versions
         }
-        self.configureView()
-        self.configureViewTwo()
-        self.configureViewThree()
+
         self.configureAnnView()
         detailTitleLabel.sizeToFit()
     }
     
-    func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = self.detailItem {
-            if let label = self.detailDescriptionLabel {
-                label.text = detail.description
-            }
-        }
-    }
-    
-    func configureViewTwo() {
-        // Update the user interface for the detail item.
-        if let detailTwo = self.detailItemTwo {
-            if let labelTwo = self.detailDateLabel {
-                labelTwo.text = "Announced on: " + detailTwo.description
-            }
-        }
-    }
-    
-    func configureViewThree() {
-        // Update the user interface for the detail item.
-        if let detailThree = self.detailItemThree {
-            if let labelThree = self.detailTitleLabel {
-                labelThree.text = detailThree.description
-            }
+    var annDetailItem: Announcement? {
+        didSet {
+            self.configureAnnView()
         }
     }
     
@@ -98,10 +75,10 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
             if let labelFour = self.detailDescriptionLabel {
                 labelFour.text = annDetailItem?.annTitle
                 detailTitleLabel.text = annDetailItem?.annBody
+                detailDateLabel.text = "Announced on: " + (annDetailItem?.annDate)!
                 
             }
         }
-        
     }
 
     var timeToRemind = 0
@@ -359,30 +336,5 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         
         controller.dismiss(animated: true, completion: nil)
         
-    }
-
-    var detailItem: String? {
-        didSet {
-            // Update the view.
-            self.configureView()
-        }
-    }
-    
-    var detailItemTwo: String? {
-        didSet {
-            self.configureViewTwo()
-        }
-    }
-    
-    var detailItemThree: String? {
-        didSet {
-            self.configureViewThree()
-        }
-    }
-    
-    var annDetailItem: Announcement? {
-        didSet {
-            self.configureAnnView()
-        }
     }
 }
