@@ -59,6 +59,7 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
             // Fallback on earlier versions
         }
 
+        navigationController?.navigationBar.isHidden = false
         self.configureAnnView()
         detailTitleLabel.sizeToFit()
     }
