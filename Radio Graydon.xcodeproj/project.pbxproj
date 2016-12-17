@@ -20,6 +20,8 @@
 		566BCC891DC6602E0043FD41 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566BCC881DC6602E0043FD41 /* NotificationViewController.swift */; };
 		566BCC8C1DC6602E0043FD41 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */; };
 		566BCC901DC6602E0043FD41 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 566BCC821DC6602E0043FD41 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		56808A7B1E00C699005C8B10 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A781E00C699005C8B10 /* Alamofire.framework */; };
+		56808A7D1E00C699005C8B10 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A7A1E00C699005C8B10 /* SwiftyJSON.framework */; };
 		56A88B181DB10CFD00451B25 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56A88B171DB10CFD00451B25 /* Images.xcassets */; };
 		A2314DF521B24C9C519F93AB /* Pods_Radio_Graydon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95F39175C10D6476A2FB6F00 /* Pods_Radio_Graydon.framework */; };
 /* End PBXBuildFile section */
@@ -83,6 +85,9 @@
 		566BCC881DC6602E0043FD41 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		566BCC8B1DC6602E0043FD41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		566BCC8D1DC6602E0043FD41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56808A781E00C699005C8B10 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../Developer/Xcode/DerivedData/Radio_Graydon-abwqmetrujqqhrgfyvyarwnqyxdy/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		56808A791E00C699005C8B10 /* NightNight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NightNight.framework; path = "Pods/../build/Debug-iphoneos/NightNight/NightNight.framework"; sourceTree = "<group>"; };
+		56808A7A1E00C699005C8B10 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Developer/Xcode/DerivedData/Radio_Graydon-abwqmetrujqqhrgfyvyarwnqyxdy/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		56A88B171DB10CFD00451B25 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8F46C92A5472C17D4666558D /* Pods-Radio Graydon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Radio Graydon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Radio Graydon/Pods-Radio Graydon.debug.xcconfig"; sourceTree = "<group>"; };
 		95F39175C10D6476A2FB6F00 /* Pods_Radio_Graydon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Radio_Graydon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +99,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56808A7B1E00C699005C8B10 /* Alamofire.framework in Frameworks */,
+				56808A7D1E00C699005C8B10 /* SwiftyJSON.framework in Frameworks */,
 				A2314DF521B24C9C519F93AB /* Pods_Radio_Graydon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,9 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				56441BD91DAC30560080F48E /* AppDelegate.swift */,
-				5646E6751DE21F38003C7CDD /* Announcement.swift */,
-				56441BDB1DAC30560080F48E /* MasterViewController.swift */,
-				56441BDD1DAC30560080F48E /* DetailViewController.swift */,
+				56BE3C0A1DEA5066004EA0C5 /* Announcement View */,
 				56441BDF1DAC30560080F48E /* Main.storyboard */,
 				56441BE41DAC30560080F48E /* LaunchScreen.storyboard */,
 				56441BE71DAC30560080F48E /* Info.plist */,
@@ -191,6 +196,16 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		56BE3C0A1DEA5066004EA0C5 /* Announcement View */ = {
+			isa = PBXGroup;
+			children = (
+				5646E6751DE21F38003C7CDD /* Announcement.swift */,
+				56441BDB1DAC30560080F48E /* MasterViewController.swift */,
+				56441BDD1DAC30560080F48E /* DetailViewController.swift */,
+			);
+			name = "Announcement View";
+			sourceTree = "<group>";
+		};
 		5F16D2DAB2835CA74545383C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +218,9 @@
 		E6574359A3FC44C3800784FD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				56808A781E00C699005C8B10 /* Alamofire.framework */,
+				56808A791E00C699005C8B10 /* NightNight.framework */,
+				56808A7A1E00C699005C8B10 /* SwiftyJSON.framework */,
 				95F39175C10D6476A2FB6F00 /* Pods_Radio_Graydon.framework */,
 				566BCC831DC6602E0043FD41 /* UserNotifications.framework */,
 				566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */,
@@ -625,6 +643,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = NU9CBG8KLT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/NightNight",
+				);
 				INFOPLIST_FILE = "Radio Graydon/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -642,6 +664,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = NU9CBG8KLT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/NightNight",
+				);
 				INFOPLIST_FILE = "Radio Graydon/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

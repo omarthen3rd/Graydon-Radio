@@ -12,7 +12,15 @@ import SwiftyJSON
 import Alamofire
 import UserNotifications
 
-extension MasterViewController : UIViewControllerPreviewingDelegate {
+extension MasterViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+    
+}
+
+extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitViewControllerDelegate {
     
     //peek
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
@@ -39,7 +47,11 @@ extension MasterViewController : UIViewControllerPreviewingDelegate {
         //self.navigationController?.pushViewController(detailPop!, animated: true)
         //present(detailPop!, animated: true, completion: nil)
         
-        present(viewControllerToCommit, animated: true, completion: nil)
+        //viewControllerToCommit.navigationController?.navigationBar.isHidden = false
+        
+        //present(viewControllerToCommit, animated: true, completion: nil)
+        
+        self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
         
     }
     
@@ -79,7 +91,7 @@ class Formatter {
     static var jsonDateFormatter: DateFormatter {
         if (internalJsonDateFormatter == nil) {
             internalJsonDateFormatter = DateFormatter()
-            internalJsonDateFormatter!.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" //old one: "yyyy-MM-dd'T'HH:mm:ss-hh:mm"
+            internalJsonDateFormatter!.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
         }
         return internalJsonDateFormatter!
     }
@@ -87,7 +99,7 @@ class Formatter {
     static var jsonDateTimeFormatter: DateFormatter {
         if (internalJsonDateTimeFormatter == nil) {
             internalJsonDateTimeFormatter = DateFormatter()
-            internalJsonDateTimeFormatter!.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ" //"'yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'" //old one: "yyyy-MM-dd'T'HH:mm:ss-hh:mm"
+            internalJsonDateTimeFormatter!.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"
         }
         return internalJsonDateTimeFormatter!
     }
@@ -119,86 +131,39 @@ class CustomTableViewCell: UITableViewCell {
 class MasterViewController: UITableViewController, UISearchBarDelegate {
 
     var detailViewController: DetailViewController? = nil
-
+    
     var tableDate = [String]()
     var detailDate = [String]()
+    var currentPageNumber = 1
     
     var announcements = [Announcement]()
     var filteredAnnouncements = [Announcement]()
     
     var resultSearchController = UISearchController(searchResultsController: nil)
     
+    // MARK: - Default Functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
   
-        //3D touch
         if traitCollection.forceTouchCapability == UIForceTouchCapability.available {
             registerForPreviewing(with: self as UIViewControllerPreviewingDelegate, sourceView: tableView)
         }
         
-        //pull to refresh
-        refreshControl = UIRefreshControl()
-        refreshControl?.backgroundColor = UIColor.white //UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-        refreshControl?.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0) //UIColor.white
-        refreshControl?.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
-        tableView.addSubview(refreshControl!)
-        
-        //navigation bar customization
-        self.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-        UINavigationBar.appearance().tintColor = UIColor.white //UIColor(red:1.00, green:0.93, blue:0.10, alpha:1.0) 
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        UIApplication.shared.statusBarStyle = .lightContent
-        
-        //hide searchbar by default
-        let searchOffset = CGPoint(x: 0, y: 44)
-        tableView.setContentOffset(searchOffset, animated: false)
-        
-        //ggmss logo on nav bar
-        let logo = UIImage(named: "graydonGlyph2")
-        let imageView = UIImageView(image: logo)
-        self.navigationItem.titleView = imageView
-        
-        //tableview delegates and stuff
         tableView.dataSource = self
         tableView.delegate = self
         
-        //search results controller
-        self.resultSearchController = ({
-        
-            let controller = UISearchController(searchResultsController: nil)
-            controller.searchResultsUpdater = self
-            controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.sizeToFit()
-            controller.searchBar.barTintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-            controller.searchBar.searchBarStyle = UISearchBarStyle.default
-            controller.searchBar.backgroundColor = UIColor.clear
-            controller.searchBar.tintColor = UIColor.white
-            UIApplication.shared.statusBarStyle = .lightContent
-            self.tableView.tableHeaderView = controller.searchBar
-            return controller
-            
-        })()
-        self.tableView.reloadData()
-        
-        //self-explanatory
-        tableView.backgroundColor = UIColor.white
-        
-        //some splitview stuff
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-            
         }
         
-        //hide search after selecting cell
-        definesPresentationContext = true
-        
-        getAnnouncements()
+        setupTheme()
+        getAnnouncements(currentPageNumber)
         
     }
     
-    //proper cell deselection
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.indexPathsForSelectedRows?.forEach {
@@ -207,23 +172,23 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
-    //refresh tableView
+    // MARK: - Functions
+    
     func refreshTableView() {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
             self.announcements.removeAll()
-            self.getAnnouncements()
+            self.getAnnouncements(self.currentPageNumber)
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             
         })
     }
     
-    //get announcements from server
-    func getAnnouncements() {
+    func getAnnouncements(_ pageNumber: Int) {
         
-        Alamofire.request("https://radiograydon.aubble.com/announcements").responseJSON { (Response) in
+        Alamofire.request("https://radiograydon.aubble.com/announcements?page=\(pageNumber)").responseJSON { (Response) in
             
             if let value = Response.result.value {
                 
@@ -231,7 +196,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 
                 for annItem in json.array! {
                     
-                    // date stuff begins
                     let dateFormatter = DateFormatter()
                     let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
                     dateFormatter.locale = enCAPosixLocale as Locale!
@@ -246,23 +210,58 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                     dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
                     let displayStringCell = dateFormatterCell.string(from: annItem["date"].dateTime! as Date)
                     self.tableDate.append(displayStringCell)
-                    // aaaaaand ends
                     
-                    //let newAnn : Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue)
                     let newAnn: Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
                     self.announcements.append(newAnn)
                     
                 }
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { 
                     
                     self.tableView.reloadData()
                     
                 }
-                
             }
-            
         }
+    }
+    
+    func setupTheme() {
+        
+        self.resultSearchController = ({
+            
+            let controller = UISearchController(searchResultsController: nil)
+            controller.searchResultsUpdater = self
+            controller.dimsBackgroundDuringPresentation = false
+            controller.searchBar.sizeToFit()
+            controller.searchBar.searchBarStyle = UISearchBarStyle.prominent
+            controller.searchBar.backgroundColor = UIColor.white
+            controller.searchBar.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+            UIApplication.shared.statusBarStyle = .default
+            self.tableView.tableHeaderView = controller.searchBar
+            return controller
+            
+        })()
+        self.tableView.reloadData()
+        
+        definesPresentationContext = true
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.backgroundColor = UIColor.white
+        refreshControl?.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        refreshControl?.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
+        tableView.addSubview(refreshControl!)
+        
+        UINavigationBar.appearance().tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        UIApplication.shared.statusBarStyle = .default
+        
+        let searchOffset = CGPoint(x: 0, y: 44)
+        tableView.setContentOffset(searchOffset, animated: false)
+        
+        let logo = UIImage(named: "graydonGlyph2")
+        let imageView = UIImageView(image: logo)
+        self.navigationItem.titleView = imageView
+        
+        tableView.backgroundColor = UIColor.white
         
     }
     
@@ -295,8 +294,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         UIApplication.shared.scheduleLocalNotification(localNotification)
         
     }
-
-    
+  
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -339,15 +337,9 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 }
                 
                 controller.annDetailItem = annDetail
-                controller.navigationController?.navigationBar.isHidden = true
+                //controller.navigationController?.navigationBar.isHidden = false
                 
             }
-            //controller.detailItem = cell.titleLabel.text
-            //controller.detailItemTwo = cell.dateLabel.text
-            //controller.detailItemThree = cell.detailLabel.text
-            //controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-            //controller.navigationItem.leftItemsSupplementBackButton = true
-            
         }
     }
 
@@ -407,12 +399,11 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70.0
     }
-}
-
-extension MasterViewController: UISearchResultsUpdating {
     
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    // MARK: - UISplitViewControllerDelegate
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
     }
     
 }

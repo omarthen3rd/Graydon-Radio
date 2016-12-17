@@ -14,6 +14,8 @@ import UserNotificationsUI
 
 class DetailViewController: UIViewController, MFMailComposeViewControllerDelegate  {
     
+    //MARK: - IB Things
+    
     @IBOutlet weak var detailDescriptionLabel: UILabel! //this is title
     @IBOutlet weak var detailDateLabel: UILabel!
     @IBOutlet weak var detailTitleLabel: UITextView! //this is description
@@ -21,33 +23,34 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
     @IBOutlet weak var remindBtn: UIBarButtonItem!
     @IBAction func remindButton(_ sender: Any) {
         
-        actionSheet()
-        
-    }
-    
-    @IBAction func reportButtonPressed(_ sender: AnyObject) {
-        
         let mailComposeViewController = sendMail()
         if MFMailComposeViewController.canSendMail() {
             present(mailComposeViewController, animated: true, completion: nil)
         } else {
             print(":(")
         }
+        
     }
+    
+    @IBAction func reportButtonPressed(_ sender: AnyObject) {
+        
+        actionSheet()
+        
+    }
+    
+    //MARK: - Default Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         //view stuff
+        reportButton.setTitle("Remind Me Later", for: .normal)
         reportButton.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         
         //navigation bar customization
-        self.navigationController?.navigationBar.barTintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-        UINavigationBar.appearance().tintColor = UIColor.white //UIColor(red:1.00, green:0.93, blue:0.10, alpha:1.0)
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        UIApplication.shared.statusBarStyle = .lightContent
-
+        UINavigationBar.appearance().tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0) //UIColor.white
+        self.extendedLayoutIncludesOpaqueBars = true
         
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(
@@ -64,15 +67,25 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         detailTitleLabel.sizeToFit()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = false
+        
+    }
+    
+    //MARK: - Functions
+    
     var annDetailItem: Announcement? {
         didSet {
             self.configureAnnView()
         }
     }
     
+    
     func configureAnnView() {
         
-        if let detailFour = self.annDetailItem {
+        if self.annDetailItem != nil {
             if let labelFour = self.detailDescriptionLabel {
                 labelFour.text = annDetailItem?.annTitle
                 detailTitleLabel.text = annDetailItem?.annBody
@@ -135,10 +148,7 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
 
-
-                
             }
-            
         }
         
         let endDay = UIAlertAction(title: "Near The End Of The Day", style: UIAlertActionStyle.default) { (action) in
@@ -227,12 +237,7 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
             
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
-            
-            print("tapped cancel")
-            
-        }
-
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         // add action to controller
         alertCtrl.addAction(lunch)
@@ -265,27 +270,21 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         if #available(iOS 10.0, *) {
          
         if isGrantedNotificationAccess{
-        //add notification code here
         
-        //Set the content of the notification
         let content = UNMutableNotificationContent()
         content.title = "Radio Graydon Reminder:"
         content.body = "\(detailTitleLabel.text!)"
-        //content.categoryIdentifier = "com.carol.radiograydon.Extension"
          
-        //Set the trigger of the notification -- here a timer.
         let trigger = UNTimeIntervalNotificationTrigger(
         timeInterval: TimeInterval(self.timeToRemind),
         repeats: false)
          
-        //Set the request for the notification from the above
         let request = UNNotificationRequest(
         identifier: "announcementRemind",
         content: content,
         trigger: trigger
         )
         
-        //Add the notification to the currnet notification center
         UNUserNotificationCenter.current().add(
         request, withCompletionHandler: nil)
          
@@ -293,9 +292,7 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         
         } else {
         
-        // Fallback on earlier versions
-        
-        sendNotification()
+            sendNotification()
         
         }
         
