@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import Foundation
 import SwiftyJSON
 import Alamofire
-import UserNotifications
+import Spring
 
 extension MasterViewController: UISearchResultsUpdating {
     
@@ -22,7 +21,6 @@ extension MasterViewController: UISearchResultsUpdating {
 
 extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitViewControllerDelegate {
     
-    //peek
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
         guard let indexPath = tableView.indexPathForRow(at: location),
@@ -30,7 +28,7 @@ extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitView
                 return nil
         }
         
-        guard let DetailVC = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController else { return nil }
+        guard let DetailVC = storyboard?.instantiateViewController(withIdentifier: "DetailTableViewController") as? DetailTableViewController else { return nil }
 
         let annDetail = announcements[indexPath.row]
         DetailVC.annDetailItem = annDetail
@@ -39,17 +37,16 @@ extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitView
         return DetailVC
     }
     
-    //pop
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         
-        let detailPop = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as?  DetailViewController
+        // let detailPop = storyboard?.instantiateViewController(withIdentifier: "DetailTableViewController") as?  DetailTableViewController
         
-        //self.navigationController?.pushViewController(detailPop!, animated: true)
-        //present(detailPop!, animated: true, completion: nil)
+        // self.navigationController?.pushViewController(detailPop!, animated: true)
+        // present(detailPop!, animated: true, completion: nil)
         
-        //viewControllerToCommit.navigationController?.navigationBar.isHidden = false
+        // viewControllerToCommit.navigationController?.navigationBar.isHidden = false
         
-        //present(viewControllerToCommit, animated: true, completion: nil)
+        // present(viewControllerToCommit, animated: true, completion: nil)
         
         self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
         
@@ -111,30 +108,31 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-            
-    }
+    @IBOutlet weak var bgView: UIView!
+    @IBOutlet weak var springBGView: SpringView!
+    @IBOutlet weak var titleView: UIView!
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        var cellView = self.accessoryView?.frame
-        cellView?.origin.y = 13.5
-        self.accessoryView?.frame = cellView!
+        bgView.layer.cornerRadius = 10.0
+        bgView.layer.masksToBounds = true
         
+        titleView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        
+        // var cellView = self.accessoryView?.frame
+        // cellView?.origin.y = 14.5
+        // self.accessoryView?.frame = cellView!
     }
 
 }
 
 class MasterViewController: UITableViewController, UISearchBarDelegate {
 
-    var detailViewController: DetailViewController? = nil
+    var detailViewController: DetailTableViewController? = nil
     
     var tableDate = [String]()
     var detailDate = [String]()
-    var currentPageNumber = 1
     
     var announcements = [Announcement]()
     var filteredAnnouncements = [Announcement]()
@@ -145,7 +143,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
   
         if traitCollection.forceTouchCapability == UIForceTouchCapability.available {
             registerForPreviewing(with: self as UIViewControllerPreviewingDelegate, sourceView: tableView)
@@ -154,21 +151,17 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         
+        // splitViewController?.delegate = self
+        // splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.allVisible
+        // self.extendedLayoutIncludesOpaqueBars = true
+        
         if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+           let controllers = split.viewControllers
+           self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailTableViewController
         }
         
         setupTheme()
-        getAnnouncements(currentPageNumber)
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.indexPathsForSelectedRows?.forEach {
-            tableView.deselectRow(at: $0, animated: true)
-        }
+        getAnnouncements()
         
     }
     
@@ -179,16 +172,16 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
             self.announcements.removeAll()
-            self.getAnnouncements(self.currentPageNumber)
+            self.getAnnouncements()
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             
         })
     }
     
-    func getAnnouncements(_ pageNumber: Int) {
+    func getAnnouncements() {
         
-        Alamofire.request("https://radiograydon.aubble.com/announcements?page=\(pageNumber)").responseJSON { (Response) in
+        Alamofire.request("https://radiograydon.aubble.com/announcements").responseJSON { (Response) in
             
             if let value = Response.result.value {
                 
@@ -233,10 +226,11 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
-            controller.searchBar.searchBarStyle = UISearchBarStyle.prominent
-            controller.searchBar.backgroundColor = UIColor.white
+            controller.searchBar.barStyle = UIBarStyle.default
+            controller.searchBar.barTintColor = UIColor.white
+            controller.searchBar.isTranslucent = true
             controller.searchBar.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-            UIApplication.shared.statusBarStyle = .default
+            
             self.tableView.tableHeaderView = controller.searchBar
             return controller
             
@@ -246,12 +240,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         definesPresentationContext = true
         
         refreshControl = UIRefreshControl()
-        refreshControl?.backgroundColor = UIColor.white
-        refreshControl?.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        refreshControl?.backgroundColor = UIColor.clear
+        refreshControl?.tintColor = UIColor.white // UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         refreshControl?.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
         tableView.addSubview(refreshControl!)
         
         UINavigationBar.appearance().tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        navigationController?.navigationBar.barStyle = .default
         UIApplication.shared.statusBarStyle = .default
         
         let searchOffset = CGPoint(x: 0, y: 44)
@@ -261,7 +256,11 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         let imageView = UIImageView(image: logo)
         self.navigationItem.titleView = imageView
         
-        tableView.backgroundColor = UIColor.white
+        let bgImage = UIImage(named: "wall")
+        let bgView = UIImageView(image: bgImage)
+        bgView.contentMode = .scaleAspectFill
+        // self.tableView.backgroundView = bgView
+        self.tableView.backgroundColor = UIColor(red:0.00, green:0.16, blue:0.00, alpha:1.0)
         
     }
     
@@ -294,7 +293,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         UIApplication.shared.scheduleLocalNotification(localNotification)
         
     }
-  
+    
     // MARK: - Segues
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -303,7 +302,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 
                 let annDetail : Announcement
                 
-                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                let controller = (segue.destination as! UINavigationController).topViewController as! DetailTableViewController
                 
                 if resultSearchController.isActive {
                     
@@ -324,7 +323,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             
                 let annDetail : Announcement
                 
-                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
+                let controller = (segue.destination as! UINavigationController).topViewController as! DetailTableViewController
                 
                 if resultSearchController.isActive {
                     
@@ -337,7 +336,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 }
                 
                 controller.annDetailItem = annDetail
-                //controller.navigationController?.navigationBar.isHidden = false
                 
             }
         }
@@ -362,13 +360,17 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         }
     }
 
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         
         var announcement : Announcement
         
-        let imageView = UIImage(named: "dIndicator")
-        cell.accessoryView = UIImageView(image: imageView)
+        // let imageView = UIImage(named: "dIndicator")
+        // cell.accessoryView = UIImageView(image: imageView)
         
         if self.resultSearchController.isActive && resultSearchController.searchBar.text != "" {
             
@@ -393,11 +395,14 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             cell.dateLabel.text = "Today"
         }
         
+        cell.springBGView.animation = "fadeIn"
+        cell.springBGView.animate()
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70.0
+        return 120
     }
     
     // MARK: - UISplitViewControllerDelegate

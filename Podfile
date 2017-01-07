@@ -7,6 +7,7 @@ target 'Radio Graydon' do
 
   pod 'SwiftyJSON'
   pod 'Alamofire', '~> 4.0'
-  pod 'HockeySDK', '~> 4.1.2'
+  pod ‘HockeySDK’, ‘~> 4.1.2’
+  pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
 
 end

@@ -1,57 +1,45 @@
 //
-//  DetailViewController.swift
+//  DetailTableViewController.swift
 //  Radio Graydon
 //
-//  Created by Omar Abbasi on 2016-10-10.
+//  Created by Omar Abbasi on 2016-12-23.
 //  Copyright © 2016 Omar Abbasi. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Foundation
 import MessageUI
 import UserNotifications
 import UserNotificationsUI
+import Spring
 
-class DetailViewController: UIViewController, MFMailComposeViewControllerDelegate  {
-    
-    //MARK: - IB Things
-    
-    @IBOutlet weak var detailDescriptionLabel: UILabel! //this is title
-    @IBOutlet weak var detailDateLabel: UILabel!
-    @IBOutlet weak var detailTitleLabel: UITextView! //this is description
-    @IBOutlet weak var reportButton: UIButton!
-    @IBOutlet weak var remindBtn: UIBarButtonItem!
-    @IBAction func remindButton(_ sender: Any) {
+class DetailTableViewController: UITableViewController, MFMailComposeViewControllerDelegate {
+
+    @IBOutlet var annTitle: UILabel!
+    @IBOutlet weak var titleView: UIView!
+    @IBOutlet var date: UILabel!
+    @IBOutlet weak var dateView: UIView!
+    @IBOutlet var body: UILabel!
+    @IBOutlet weak var bodyView: UIView!
+    @IBOutlet var remindBtn: UIBarButtonItem!
+    @IBAction func remindBtn(_ sender: Any) {
+        actionSheet()
+    }
+    @IBOutlet weak var reportIssueView: UIView!
+    @IBAction func reportIssueBtn(_ sender: Any) {
         
         let mailComposeViewController = sendMail()
         if MFMailComposeViewController.canSendMail() {
             present(mailComposeViewController, animated: true, completion: nil)
         } else {
-            print(":(")
+            print("Unable to send mail")
         }
         
     }
     
-    @IBAction func reportButtonPressed(_ sender: AnyObject) {
-        
-        actionSheet()
-        
-    }
-    
-    //MARK: - Default Functions
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        //view stuff
-        reportButton.setTitle("Remind Me Later", for: .normal)
-        reportButton.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-        
-        //navigation bar customization
-        UINavigationBar.appearance().tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0) //UIColor.white
-        self.extendedLayoutIncludesOpaqueBars = true
-        
+
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(
                 options: [.alert,.sound,.badge],
@@ -61,20 +49,22 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         } else {
             // Fallback on earlier versions
         }
-
-        navigationController?.navigationBar.isHidden = false
+        
+        setupTheme()
         self.configureAnnView()
-        detailTitleLabel.sizeToFit()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationController?.navigationBar.isHidden = false
         
     }
     
-    //MARK: - Functions
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tableView.estimatedRowHeight = 400
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.setNeedsLayout()
+        self.tableView.layoutIfNeeded()
+        self.tableView.reloadData()
+    }
+
+    // MARK: - Functions
     
     var annDetailItem: Announcement? {
         didSet {
@@ -82,19 +72,41 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         }
     }
     
-    
     func configureAnnView() {
         
         if self.annDetailItem != nil {
-            if let labelFour = self.detailDescriptionLabel {
+            if let labelFour = self.annTitle {
                 labelFour.text = annDetailItem?.annTitle
-                detailTitleLabel.text = annDetailItem?.annBody
-                detailDateLabel.text = "Announced on: " + (annDetailItem?.annDate)!
+                body.text = annDetailItem?.annBody
+                body.numberOfLines = 0
+                date.text = "Announced on: " + (annDetailItem?.annDate)!
                 
             }
         }
     }
-
+    
+    func setupTheme() {
+        
+        let bgImage = UIImage(named: "wall")
+        let bgView = UIImageView(image: bgImage)
+        bgView.contentMode = .scaleAspectFill
+        // self.tableView.backgroundView = bgView
+        self.tableView.backgroundColor = UIColor(red:0.00, green:0.16, blue:0.00, alpha:1.0)
+        
+        reportIssueView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        reportIssueView.layer.cornerRadius = 10.0
+        reportIssueView.layer.masksToBounds = true
+        
+        annTitle.textColor = UIColor.white
+        titleView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        titleView.layer.cornerRadius = 10.0
+        titleView.layer.masksToBounds = true
+        
+        bodyView.layer.cornerRadius = 10.0
+        bodyView.layer.masksToBounds = true
+        
+    }
+    
     var timeToRemind = 0
     fileprivate func actionSheet() {
         
@@ -134,7 +146,7 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 self.timeToRemind = seconds!
                 print(self.timeToRemind)
                 self.remindLater()
-                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 10:45 AM tomorrow", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 10:45 AM tomorrow", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
@@ -143,11 +155,11 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 
                 self.timeToRemind = seconds!
                 self.remindLater()
-                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 10:45 AM today", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 10:45 AM today", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
-
+                
             }
         }
         
@@ -184,27 +196,27 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
                 self.timeToRemind = seconds!
                 print(self.timeToRemind)
                 self.remindLater()
-                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 2:30 PM tomorrow", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 2:30 PM tomorrow", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
-
+                
                 
             } else {
                 
                 self.timeToRemind = seconds!
                 print(self.timeToRemind)
                 self.remindLater()
-                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 2:30 PM today", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 2:30 PM today", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alert.addAction(alertAction)
                 self.present(alert, animated: true, completion: nil)
-
+                
                 
             }
             
         }
-
+        
         let tomorrowMorning = UIAlertAction(title: "Tomorrow Morning", style: UIAlertActionStyle.default) { (action) in
             
             let start = Date()
@@ -229,14 +241,14 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
             self.timeToRemind = seconds!
             print(self.timeToRemind)
             self.remindLater()
-            let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.detailDescriptionLabel.text!) at 8:00 AM tomorrow", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 8:00 AM tomorrow", preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
             alert.addAction(alertAction)
             self.present(alert, animated: true, completion: nil)
-
+            
             
         }
-
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         // add action to controller
@@ -250,14 +262,14 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         
         // show action sheet
         self.present(alertCtrl, animated: true, completion: nil)
-    
+        
     }
     
     func sendNotification() {
         
         let localNotification: UILocalNotification = UILocalNotification()
         localNotification.alertTitle = "Radio Graydon Reminder:"
-        localNotification.alertBody = "\(detailTitleLabel.text!)"
+        localNotification.alertBody = "\(annTitle.text!)"
         localNotification.alertAction = "view"
         localNotification.fireDate = NSDate(timeIntervalSinceNow: TimeInterval(timeToRemind)) as Date
         UIApplication.shared.scheduleLocalNotification(localNotification)
@@ -266,34 +278,34 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
     
     var isGrantedNotificationAccess:Bool = false
     func remindLater() {
-
+        
         if #available(iOS 10.0, *) {
-         
-        if isGrantedNotificationAccess{
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Radio Graydon Reminder:"
-        content.body = "\(detailTitleLabel.text!)"
-         
-        let trigger = UNTimeIntervalNotificationTrigger(
-        timeInterval: TimeInterval(self.timeToRemind),
-        repeats: false)
-         
-        let request = UNNotificationRequest(
-        identifier: "announcementRemind",
-        content: content,
-        trigger: trigger
-        )
-        
-        UNUserNotificationCenter.current().add(
-        request, withCompletionHandler: nil)
-         
-        }
-        
+            
+            if isGrantedNotificationAccess{
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Radio Graydon Reminder:"
+                content.body = "\(body.text!)"
+                
+                let trigger = UNTimeIntervalNotificationTrigger(
+                    timeInterval: TimeInterval(self.timeToRemind),
+                    repeats: false)
+                
+                let request = UNNotificationRequest(
+                    identifier: "announcementRemind",
+                    content: content,
+                    trigger: trigger
+                )
+                
+                UNUserNotificationCenter.current().add(
+                    request, withCompletionHandler: nil)
+                
+            }
+            
         } else {
-        
+            
             sendNotification()
-        
+            
         }
         
     }
@@ -307,14 +319,14 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         mc.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
         
         let emailTitle = "Issue With Announcement"
-        let message = "There is an issue with this announcement: \(detailDescriptionLabel.text!)"
+        let message = "There is an issue with this announcement: \(annTitle.text!)"
         mc.setMessageBody(message, isHTML: false)
         let toRecipents = ["gordongraydonradio@gmail.com"]
         mc.setSubject(emailTitle)
         mc.setToRecipients(toRecipents)
         
         return mc
-    
+        
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
@@ -335,4 +347,29 @@ class DetailViewController: UIViewController, MFMailComposeViewControllerDelegat
         controller.dismiss(animated: true, completion: nil)
         
     }
+    
+    // MARK: - Table view data source
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 400
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+    }
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
