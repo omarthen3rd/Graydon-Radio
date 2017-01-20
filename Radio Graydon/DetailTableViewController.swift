@@ -89,9 +89,9 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
+        bgView.image = bgImage?.applyBlurWithRadius(20, tintColor: UIColor(red:0.00, green:0.00, blue:0.00, alpha:0.45), saturationDeltaFactor: 2)
         bgView.contentMode = .scaleAspectFill
-        // self.tableView.backgroundView = bgView
-        self.tableView.backgroundColor = UIColor(red:0.00, green:0.16, blue:0.00, alpha:1.0)
+        self.tableView.backgroundView = bgView
         
         reportIssueView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         reportIssueView.layer.cornerRadius = 10.0

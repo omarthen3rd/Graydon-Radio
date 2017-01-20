@@ -19,6 +19,7 @@
 		566BCC891DC6602E0043FD41 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566BCC881DC6602E0043FD41 /* NotificationViewController.swift */; };
 		566BCC8C1DC6602E0043FD41 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */; };
 		566BCC901DC6602E0043FD41 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 566BCC821DC6602E0043FD41 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5670F25D1E2A8ADB00397391 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */; };
 		56808A7B1E00C699005C8B10 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A781E00C699005C8B10 /* Alamofire.framework */; };
 		56808A7D1E00C699005C8B10 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A7A1E00C699005C8B10 /* SwiftyJSON.framework */; };
 		56A3713A1E0D61DD00D9F9C6 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A371391E0D61DD00D9F9C6 /* DetailTableViewController.swift */; };
@@ -84,6 +85,7 @@
 		566BCC881DC6602E0043FD41 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		566BCC8B1DC6602E0043FD41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		566BCC8D1DC6602E0043FD41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageEffects.swift; sourceTree = "<group>"; };
 		56808A781E00C699005C8B10 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../Developer/Xcode/DerivedData/Radio_Graydon-abwqmetrujqqhrgfyvyarwnqyxdy/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
 		56808A791E00C699005C8B10 /* NightNight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NightNight.framework; path = "Pods/../build/Debug-iphoneos/NightNight/NightNight.framework"; sourceTree = "<group>"; };
 		56808A7A1E00C699005C8B10 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Developer/Xcode/DerivedData/Radio_Graydon-abwqmetrujqqhrgfyvyarwnqyxdy/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		56441BD81DAC30560080F48E /* Radio Graydon */ = {
 			isa = PBXGroup;
 			children = (
+				5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */,
 				56441BD91DAC30560080F48E /* AppDelegate.swift */,
 				5646E6751DE21F38003C7CDD /* Announcement.swift */,
 				56441BDB1DAC30560080F48E /* MasterViewController.swift */,
@@ -456,6 +459,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5670F25D1E2A8ADB00397391 /* UIImageEffects.swift in Sources */,
 				5646E6761DE21F38003C7CDD /* Announcement.swift in Sources */,
 				56A3713A1E0D61DD00D9F9C6 /* DetailTableViewController.swift in Sources */,
 				56441BDC1DAC30560080F48E /* MasterViewController.swift in Sources */,

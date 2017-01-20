@@ -22,9 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         splitViewController.delegate = self
         
         application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil))
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(AppDelegate.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        
+                
         //UINavigationBar.appearance().tintColor = UIColor(red: 0.08, green: 0.65, blue: 0.08, alpha: 1.0)
         UIApplication.shared.statusBarStyle = .default
 
@@ -53,16 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func rotated() {
-        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            print("landscape")
-        }
-        
-        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
-            print("portrait")
-        }
-    }
-
     // MARK: - Split view
 
     func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {

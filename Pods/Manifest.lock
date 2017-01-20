@@ -1,16 +1,14 @@
 PODS:
   - Alamofire (4.0.1)
-  - HockeySDK (4.1.2):
-    - HockeySDK/DefaultLib (= 4.1.2)
-  - HockeySDK/DefaultLib (4.1.2)
   - Spring (1.0.3)
   - SwiftyJSON (3.1.1)
+  - VisualEffectView (2.0.2)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
-  - HockeySDK (~> 4.1.2)
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift3`)
   - SwiftyJSON
+  - VisualEffectView
 
 EXTERNAL SOURCES:
   Spring:
@@ -24,10 +22,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
-  HockeySDK: c7523379550a4305cefc1cdfa7b5f9a5a3538180
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
+  VisualEffectView: 4c7554a5c9ad404b50d42cf5251e30046fd16c7b
 
-PODFILE CHECKSUM: 07661a6d54762dc73f7e796c822b3dcb00588862
+PODFILE CHECKSUM: 94e182fcbdf5d34d809627b3e6b66323e7ab66aa
 
 COCOAPODS: 1.1.1

@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>HockeySDK-HockeySDKResources.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Radio Graydon.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -29,20 +24,25 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>VisualEffectView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>19C4B3808770C02A3B5C3F7938936A49</key>
+		<key>2734865737879740264BAC862C7EB2EA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1C8016089013B36B42DBBD28F2E2549B</key>
+		<key>3BC9EC754C1EF7D874370B3D06AF69C2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4834B793A5FE1FB333F8C76167F537BE</key>
+		<key>3BD1A993EDBBE413E7FD96ECB367C0E1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,7 +52,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FAFB7D08D9239DE5F58C0E2FE53D1A67</key>
+		<key>FDCD6C0CB0B6CC49612A43967875D760</key>
 		<dict>
 			<key>primary</key>
 			<true/>

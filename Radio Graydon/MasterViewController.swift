@@ -117,6 +117,9 @@ class CustomTableViewCell: UITableViewCell {
         
         bgView.layer.cornerRadius = 10.0
         bgView.layer.masksToBounds = true
+        bgView.layer.shadowColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:0.60).cgColor
+        bgView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        bgView.layer.shadowRadius = 4.0
         
         titleView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         
@@ -226,8 +229,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
-            controller.searchBar.barStyle = UIBarStyle.default
-            controller.searchBar.barTintColor = UIColor.white
+            controller.searchBar.searchBarStyle = UISearchBarStyle.default
+            controller.searchBar.barTintColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:0.5)
             controller.searchBar.isTranslucent = true
             controller.searchBar.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
             
@@ -258,9 +261,10 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
+        bgView.image = bgImage?.applyBlurWithRadius(10, tintColor: UIColor(white:0.0, alpha:0.4), saturationDeltaFactor: 2)
         bgView.contentMode = .scaleAspectFill
-        // self.tableView.backgroundView = bgView
-        self.tableView.backgroundColor = UIColor(red:0.00, green:0.16, blue:0.00, alpha:1.0)
+        self.tableView.backgroundView = bgView
+        // self.tableView.backgroundColor = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
         
     }
     
@@ -402,7 +406,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 103
     }
     
     // MARK: - UISplitViewControllerDelegate
