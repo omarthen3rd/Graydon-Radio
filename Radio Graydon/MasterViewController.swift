@@ -17,6 +17,10 @@ extension MasterViewController: UISearchResultsUpdating {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("ran this 2")
+    }
+    
 }
 
 extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitViewControllerDelegate {
@@ -88,7 +92,7 @@ class Formatter {
     static var jsonDateFormatter: DateFormatter {
         if (internalJsonDateFormatter == nil) {
             internalJsonDateFormatter = DateFormatter()
-            internalJsonDateFormatter!.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+            internalJsonDateFormatter!.dateFormat = "YYYY-MM-DD" // "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
         }
         return internalJsonDateFormatter!
     }
@@ -96,7 +100,7 @@ class Formatter {
     static var jsonDateTimeFormatter: DateFormatter {
         if (internalJsonDateTimeFormatter == nil) {
             internalJsonDateTimeFormatter = DateFormatter()
-            internalJsonDateTimeFormatter!.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ssZZZZZ"
+            internalJsonDateTimeFormatter!.dateFormat = "YYYY-MM-DD"
         }
         return internalJsonDateTimeFormatter!
     }
@@ -164,7 +168,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         }
         
         setupTheme()
-        getAnnouncements()
+        // getAnnouncements()
+        getAnns(10, 384)
         
     }
     
@@ -180,6 +185,50 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             self.refreshControl?.endRefreshing()
             
         })
+    }
+    
+    func getAnns(_ annCount: Int, _ before: Int) {
+        
+        Alamofire.request("https://radiograydon.me/api/v1/anns").responseJSON { (Response) in
+            
+            if let value = Response.result.value {
+                
+                let json = JSON(value)
+                
+                print(json.count)
+                
+                for ann in json.arrayValue {
+                    
+                    let dateFormatter = DateFormatter()
+                    let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
+                    dateFormatter.locale = enCAPosixLocale as Locale!
+                    dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
+                    dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
+                    let displayString = dateFormatter.string(from: ann["date"].dateTime! as Date)
+                    self.detailDate.append(displayString)
+                    
+                    let dateFormatterCell = DateFormatter()
+                    let enCAlocale = NSLocale(localeIdentifier: "en_CA")
+                    dateFormatterCell.locale = enCAlocale as Locale!
+                    dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
+                    let displayStringCell = dateFormatterCell.string(from: ann["date"].dateTime! as Date)
+                    self.tableDate.append(displayStringCell)
+                    
+                    let newAnn: Announcement = Announcement(annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
+                    self.announcements.append(newAnn)
+                    
+                }
+                
+                DispatchQueue.main.async {
+                    
+                    self.tableView.reloadData()
+                    
+                }
+                
+            }
+            
+        }
+        
     }
     
     func getAnnouncements() {
@@ -229,8 +278,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             controller.searchResultsUpdater = self
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
-            controller.searchBar.searchBarStyle = UISearchBarStyle.default
-            controller.searchBar.barTintColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:0.5)
+            controller.searchBar.searchBarStyle = UISearchBarStyle.minimal
+            controller.searchBar.barTintColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
             controller.searchBar.isTranslucent = true
             controller.searchBar.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
             
@@ -261,7 +310,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
-        bgView.image = bgImage?.applyBlurWithRadius(10, tintColor: UIColor(white:0.0, alpha:0.4), saturationDeltaFactor: 2)
+        bgView.image = bgImage?.applyBlurWithRadius(10, tintColor: UIColor(white:0.0, alpha:0.5), saturationDeltaFactor: 3)
         bgView.contentMode = .scaleAspectFill
         self.tableView.backgroundView = bgView
         // self.tableView.backgroundColor = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
@@ -403,6 +452,26 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         cell.springBGView.animate()
         
         return cell
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if self.resultSearchController.isActive {
+            self.resultSearchController.searchBar.searchBarStyle = UISearchBarStyle.default
+        }
+        if !(self.resultSearchController.isActive) {
+            self.resultSearchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
+        }
+        
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        let deltaOffset = maximumOffset - currentOffset
+        
+        if deltaOffset <= 0 {
+            print("scroll did end")
+        }
+        
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
