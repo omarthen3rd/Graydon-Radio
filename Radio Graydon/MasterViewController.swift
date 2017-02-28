@@ -16,10 +16,6 @@ extension MasterViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchText: searchController.searchBar.text!)
     }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-    }
-    
 }
 
 extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitViewControllerDelegate {
@@ -131,10 +127,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         
-        // splitViewController?.delegate = self
-        // splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.allVisible
-        // self.extendedLayoutIncludesOpaqueBars = true
-        
         if let split = self.splitViewController {
            let controllers = split.viewControllers
            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailTableViewController
@@ -143,6 +135,15 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         setupTheme()
         getAnns(25, idToUse)
         
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if (self.view.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.compact) {
+            // self.navigationItem.titleView?.frame = CGRect(x: (self.navigationItem.titleView?.frame.origin.x)!, y: (self.navigationItem.titleView?.frame.origin.y)!, width: 15, height: 15)
+        } else if (self.view.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.regular) {
+            // self.navigationItem.titleView?.frame = CGRect(x: (self.navigationItem.titleView?.frame.origin.x)!, y: (self.navigationItem.titleView?.frame.origin.y)!, width: 25, height: 25)
+        }
     }
     
     // MARK: - Functions
@@ -221,14 +222,12 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                         dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
                         dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
                         let displayString = dateFormatter.string(from: ann["date"].date!)
-                        // let dateThingy = dateFormatter.date(from: ann["date"].stringValue)
                         self.detailDate.append(displayString)
                         
                         let dateFormatterCell = DateFormatter()
                         let enCAlocale = NSLocale(localeIdentifier: "en_CA")
                         dateFormatterCell.locale = enCAlocale as Locale!
                         dateFormatterCell.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
-                        // dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
                         dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
                         let displayStringCell = dateFormatterCell.string(from: ann["date"].date!)
                         self.tableDate.append(displayStringCell)
@@ -256,11 +255,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     func getAnnouncements() {
         
-        Alamofire.request("https://radiograydon.aubble.com/announcements").responseJSON { (Response) in
+        Alamofire.request("https://radiograydon.me/api/v1/anns").responseJSON { (Response) in
             
             if let value = Response.result.value {
                 
                 let json = JSON(value)
+                
+                print(json.count)
                 
                 for annItem in json.array! {
                     
@@ -270,14 +271,14 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                     dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
                     dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
                     let displayString = dateFormatter.string(from: annItem["date"].date!)
-                    self.detailDate.append(displayString)
+                    // self.detailDate.append(displayString)
                     
                     let dateFormatterCell = DateFormatter()
                     let enCAlocale = NSLocale(localeIdentifier: "en_CA")
                     dateFormatterCell.locale = enCAlocale as Locale!
                     dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
                     let displayStringCell = dateFormatterCell.string(from: annItem["date"].date!)
-                    self.tableDate.append(displayStringCell)
+                    // self.tableDate.append(displayStringCell)
                     
                     // let newAnn: Announcement = Announcement(id: ann["id"].intValue, annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
                     // self.announcements.append(newAnn)
@@ -305,6 +306,19 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             controller.searchBar.barTintColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
             controller.searchBar.isTranslucent = true
             controller.searchBar.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+            let textFieldInsideSearchBar = controller.searchBar.value(forKey: "searchField") as? UITextField
+            textFieldInsideSearchBar?.textColor = UIColor.white
+            
+            for subview in controller.searchBar.subviews {
+                for secondLevel in subview.subviews {
+                    if secondLevel.isKind(of: UITextField.self) {
+                        if let searchBarTextField: UITextField = secondLevel as? UITextField {
+                            searchBarTextField.textColor = UIColor.white
+                            break
+                        }
+                    }
+                }
+            }
             
             self.tableView.tableHeaderView = controller.searchBar
             return controller
@@ -329,11 +343,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         let logo = UIImage(named: "graydonGlyph2")
         let imageView = UIImageView(image: logo)
-        self.navigationItem.titleView = imageView
+        self.title = "Graydon Radio"
+        // self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red:1.00, green:0.93, blue:0.10, alpha:1.0)]
+        // self.navigationItem.titleView = imageView
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
-        bgView.image = bgImage?.applyBlurWithRadius(10, tintColor: UIColor(white:0.0, alpha:0.5), saturationDeltaFactor: 3)
+        bgView.image = bgImage?.applyBlurWithRadius(8, tintColor: UIColor(white:0.0, alpha:0.5), saturationDeltaFactor: 3)
         bgView.contentMode = .scaleAspectFill
         self.tableView.backgroundView = bgView
         // self.tableView.backgroundColor = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
