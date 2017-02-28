@@ -18,7 +18,6 @@ extension MasterViewController: UISearchResultsUpdating {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("ran this 2")
     }
     
 }
@@ -43,15 +42,6 @@ extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitView
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         
-        // let detailPop = storyboard?.instantiateViewController(withIdentifier: "DetailTableViewController") as?  DetailTableViewController
-        
-        // self.navigationController?.pushViewController(detailPop!, animated: true)
-        // present(detailPop!, animated: true, completion: nil)
-        
-        // viewControllerToCommit.navigationController?.navigationBar.isHidden = false
-        
-        // present(viewControllerToCommit, animated: true, completion: nil)
-        
         self.navigationController?.pushViewController(viewControllerToCommit, animated: true)
         
     }
@@ -60,22 +50,11 @@ extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitView
 
 extension JSON {
     
-    public var date: NSDate? {
+    public var date: Date? {
         get {
             switch self.type {
-            case .string:
-                return Formatter.jsonDateFormatter.date(from: self.object as! String) as NSDate?
-            default:
-                return nil
-            }
-        }
-    }
-    
-    public var dateTime: NSDate? {
-        get {
-            switch self.type {
-            case .string:
-                return Formatter.jsonDateTimeFormatter.date(from: self.object as! String) as NSDate?
+            case.string:
+                return Formatter.jsonDateFormatter.date(from: self.object as! String)
             default:
                 return nil
             }
@@ -87,22 +66,14 @@ extension JSON {
 class Formatter {
     
     private static var internalJsonDateFormatter: DateFormatter?
-    private static var internalJsonDateTimeFormatter: DateFormatter?
     
     static var jsonDateFormatter: DateFormatter {
         if (internalJsonDateFormatter == nil) {
             internalJsonDateFormatter = DateFormatter()
-            internalJsonDateFormatter!.dateFormat = "YYYY-MM-DD" // "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+            internalJsonDateFormatter!.dateFormat = "yyyy-MM-dd"
+            // "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
         }
         return internalJsonDateFormatter!
-    }
-    
-    static var jsonDateTimeFormatter: DateFormatter {
-        if (internalJsonDateTimeFormatter == nil) {
-            internalJsonDateTimeFormatter = DateFormatter()
-            internalJsonDateTimeFormatter!.dateFormat = "YYYY-MM-DD"
-        }
-        return internalJsonDateTimeFormatter!
     }
     
 }
@@ -138,6 +109,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
 
     var detailViewController: DetailTableViewController? = nil
     
+    var idToUse = 0
+    
     var tableDate = [String]()
     var detailDate = [String]()
     
@@ -168,8 +141,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         }
         
         setupTheme()
-        // getAnnouncements()
-        getAnns(10, 384)
+        getAnns(25, idToUse)
         
     }
     
@@ -180,7 +152,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
             self.announcements.removeAll()
-            self.getAnnouncements()
+            // self.getAnnouncements()
+            self.getAnns(25, 0)
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             
@@ -189,45 +162,95 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     func getAnns(_ annCount: Int, _ before: Int) {
         
-        Alamofire.request("https://radiograydon.me/api/v1/anns").responseJSON { (Response) in
+        if before == 0 {
             
-            if let value = Response.result.value {
+            Alamofire.request("https://radiograydon.me/api/v1/anns?count=\(annCount)").responseJSON { (Response) in
                 
-                let json = JSON(value)
-                
-                print(json.count)
-                
-                for ann in json.arrayValue {
+                if let value = Response.result.value {
                     
-                    let dateFormatter = DateFormatter()
-                    let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
-                    dateFormatter.locale = enCAPosixLocale as Locale!
-                    dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
-                    dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
-                    let displayString = dateFormatter.string(from: ann["date"].dateTime! as Date)
-                    self.detailDate.append(displayString)
+                    let json = JSON(value)
                     
-                    let dateFormatterCell = DateFormatter()
-                    let enCAlocale = NSLocale(localeIdentifier: "en_CA")
-                    dateFormatterCell.locale = enCAlocale as Locale!
-                    dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
-                    let displayStringCell = dateFormatterCell.string(from: ann["date"].dateTime! as Date)
-                    self.tableDate.append(displayStringCell)
+                    for ann in json.arrayValue {
+                        
+                        let dateFormatter = DateFormatter()
+                        let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
+                        dateFormatter.locale = enCAPosixLocale as Locale!
+                        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
+                        dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
+                        let displayString = dateFormatter.string(from: ann["date"].date!)
+                        // let dateThingy = dateFormatter.date(from: ann["date"].stringValue)
+                        self.detailDate.append(displayString)
+                        
+                        let dateFormatterCell = DateFormatter()
+                        let enCAlocale = NSLocale(localeIdentifier: "en_CA")
+                        dateFormatterCell.locale = enCAlocale as Locale!
+                        dateFormatterCell.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
+                        // dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
+                        dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
+                        let displayStringCell = dateFormatterCell.string(from: ann["date"].date!)
+                        self.tableDate.append(displayStringCell)
+                        
+                        let newAnn: Announcement = Announcement(id: ann["id"].intValue, annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
+                        self.announcements.append(newAnn)
+                        
+                    }
                     
-                    let newAnn: Announcement = Announcement(annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
-                    self.announcements.append(newAnn)
+                    DispatchQueue.main.async {
+                        
+                        self.tableView.reloadData()
+                        
+                    }
                     
                 }
                 
-                DispatchQueue.main.async {
+            }
+            
+        } else {
+            
+            Alamofire.request("https://radiograydon.me/api/v1/anns?count=\(annCount)&before=\(before)").responseJSON { (Response) in
+                
+                if let value = Response.result.value {
                     
-                    self.tableView.reloadData()
+                    let json = JSON(value)
+                    
+                    for ann in json.arrayValue {
+                        
+                        let dateFormatter = DateFormatter()
+                        let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
+                        dateFormatter.locale = enCAPosixLocale as Locale!
+                        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
+                        dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
+                        let displayString = dateFormatter.string(from: ann["date"].date!)
+                        // let dateThingy = dateFormatter.date(from: ann["date"].stringValue)
+                        self.detailDate.append(displayString)
+                        
+                        let dateFormatterCell = DateFormatter()
+                        let enCAlocale = NSLocale(localeIdentifier: "en_CA")
+                        dateFormatterCell.locale = enCAlocale as Locale!
+                        dateFormatterCell.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
+                        // dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
+                        dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
+                        let displayStringCell = dateFormatterCell.string(from: ann["date"].date!)
+                        self.tableDate.append(displayStringCell)
+                        
+                        let newAnn: Announcement = Announcement(id: ann["id"].intValue, annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
+                        self.announcements.append(newAnn)
+                        
+                    }
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.tableView.reloadData()
+                        
+                    }
                     
                 }
                 
             }
             
         }
+        
+
         
     }
     
@@ -246,18 +269,18 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                     dateFormatter.locale = enCAPosixLocale as Locale!
                     dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
                     dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
-                    let displayString = dateFormatter.string(from: annItem["date"].dateTime! as Date)
+                    let displayString = dateFormatter.string(from: annItem["date"].date!)
                     self.detailDate.append(displayString)
                     
                     let dateFormatterCell = DateFormatter()
                     let enCAlocale = NSLocale(localeIdentifier: "en_CA")
                     dateFormatterCell.locale = enCAlocale as Locale!
                     dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
-                    let displayStringCell = dateFormatterCell.string(from: annItem["date"].dateTime! as Date)
+                    let displayStringCell = dateFormatterCell.string(from: annItem["date"].date!)
                     self.tableDate.append(displayStringCell)
                     
-                    let newAnn: Announcement = Announcement(annTitle: annItem["title"].stringValue, annBody: annItem["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
-                    self.announcements.append(newAnn)
+                    // let newAnn: Announcement = Announcement(id: ann["id"].intValue, annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
+                    // self.announcements.append(newAnn)
                     
                 }
                 
@@ -315,6 +338,16 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         self.tableView.backgroundView = bgView
         // self.tableView.backgroundColor = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
         
+    }
+    
+    func loadingCell() -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicator.center = cell.center
+        cell.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        cell.tag = 1337
+        return cell
     }
     
     func filterContentForSearchText(searchText: String) {
@@ -415,43 +448,64 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
+        
+        if cell.tag == 1337 {
+            if !(announcements.isEmpty) {
+                print("ran empty")
+                let ann = announcements.last!
+                self.idToUse = ann.id
+                getAnns(25, self.idToUse)
+            } else {
+                print("ran else")
+            }
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
         
-        var announcement : Announcement
-        
-        // let imageView = UIImage(named: "dIndicator")
-        // cell.accessoryView = UIImageView(image: imageView)
-        
-        if self.resultSearchController.isActive && resultSearchController.searchBar.text != "" {
+        if indexPath.row < self.announcements.count {
             
-            announcement = filteredAnnouncements[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
+            
+            var announcement : Announcement
+            
+            // let imageView = UIImage(named: "dIndicator")
+            // cell.accessoryView = UIImageView(image: imageView)
+            
+            if self.resultSearchController.isActive && resultSearchController.searchBar.text != "" {
+                
+                announcement = filteredAnnouncements[indexPath.row]
+                
+            } else {
+                
+                announcement = announcements[indexPath.row]
+                
+            }
+            
+            let today = Date()
+            let dateFormatter2 = DateFormatter()
+            dateFormatter2.setLocalizedDateFormatFromTemplate("MMM d")
+            let todayDate = dateFormatter2.string(from: today)
+            
+            cell.titleLabel.text = announcement.annTitle
+            cell.detailLabel.text = announcement.annBody
+            cell.dateLabel.text = announcement.altAnnDate
+            
+            if cell.dateLabel.text == todayDate {
+                cell.dateLabel.text = "Today"
+            }
+            
+            cell.springBGView.animation = "fadeIn"
+            cell.springBGView.animate()
+            
+            return cell
             
         } else {
-            
-            announcement = announcements[indexPath.row]
-            
+            return loadingCell()
         }
         
-        let today = Date()
-        let dateFormatter2 = DateFormatter()
-        dateFormatter2.setLocalizedDateFormatFromTemplate("MMM d")
-        let todayDate = dateFormatter2.string(from: today)
         
-        cell.titleLabel.text = announcement.annTitle
-        cell.detailLabel.text = announcement.annBody
-        cell.dateLabel.text = announcement.altAnnDate
-        
-        if cell.dateLabel.text == todayDate {
-            cell.dateLabel.text = "Today"
-        }
-        
-        cell.springBGView.animation = "fadeIn"
-        cell.springBGView.animate()
-        
-        return cell
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -467,13 +521,19 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         let deltaOffset = maximumOffset - currentOffset
         
-        if deltaOffset <= 0 {
-            print("scroll did end")
-        }
+        /* if deltaOffset <= 0 {
+            if !(announcements.isEmpty) {
+                let ann = announcements.last!
+                self.idToUse = ann.id
+                getAnns(25, self.idToUse)
+                
+            } else {
+                print("ran else")
+            }
+        } */
         
         
     }
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 103
     }
