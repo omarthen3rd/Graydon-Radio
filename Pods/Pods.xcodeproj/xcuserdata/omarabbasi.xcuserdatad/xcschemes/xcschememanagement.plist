@@ -24,25 +24,10 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>VisualEffectView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2734865737879740264BAC862C7EB2EA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3BC9EC754C1EF7D874370B3D06AF69C2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3BD1A993EDBBE413E7FD96ECB367C0E1</key>
+		<key>3629A525C9632DA72F14912DAF2FE9E0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,7 +37,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FDCD6C0CB0B6CC49612A43967875D760</key>
+		<key>B4C3D074107C9C3B15195FFFA3D3E53A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D967CACDD79380FE3FC6863AD4F6C69D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -14,11 +14,6 @@
 		56441BF11DAC30570080F48E /* Radio_GraydonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BF01DAC30570080F48E /* Radio_GraydonTests.swift */; };
 		56441BFC1DAC30570080F48E /* Radio_GraydonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */; };
 		5646E6761DE21F38003C7CDD /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5646E6751DE21F38003C7CDD /* Announcement.swift */; };
-		566BCC841DC6602E0043FD41 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BCC831DC6602E0043FD41 /* UserNotifications.framework */; };
-		566BCC861DC6602E0043FD41 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */; };
-		566BCC891DC6602E0043FD41 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566BCC881DC6602E0043FD41 /* NotificationViewController.swift */; };
-		566BCC8C1DC6602E0043FD41 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */; };
-		566BCC901DC6602E0043FD41 /* Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 566BCC821DC6602E0043FD41 /* Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5670F25D1E2A8ADB00397391 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */; };
 		56808A7B1E00C699005C8B10 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A781E00C699005C8B10 /* Alamofire.framework */; };
 		56808A7D1E00C699005C8B10 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A7A1E00C699005C8B10 /* SwiftyJSON.framework */; };
@@ -42,13 +37,6 @@
 			remoteGlobalIDString = 56441BD51DAC30560080F48E;
 			remoteInfo = "Radio Graydon";
 		};
-		566BCC8E1DC6602E0043FD41 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 56441BCE1DAC30560080F48E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 566BCC811DC6602E0043FD41;
-			remoteInfo = Extension;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,7 +46,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				566BCC901DC6602E0043FD41 /* Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,12 +66,8 @@
 		56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radio_GraydonUITests.swift; sourceTree = "<group>"; };
 		56441BFD1DAC30570080F48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5646E6751DE21F38003C7CDD /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
-		566BCC821DC6602E0043FD41 /* Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Extension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		566BCC831DC6602E0043FD41 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
-		566BCC881DC6602E0043FD41 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
-		566BCC8B1DC6602E0043FD41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		566BCC8D1DC6602E0043FD41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageEffects.swift; sourceTree = "<group>"; };
 		56808A781E00C699005C8B10 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../../Developer/Xcode/DerivedData/Radio_Graydon-abwqmetrujqqhrgfyvyarwnqyxdy/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
 		56808A791E00C699005C8B10 /* NightNight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NightNight.framework; path = "Pods/../build/Debug-iphoneos/NightNight/NightNight.framework"; sourceTree = "<group>"; };
@@ -121,15 +104,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		566BCC7F1DC6602E0043FD41 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				566BCC861DC6602E0043FD41 /* UserNotificationsUI.framework in Frameworks */,
-				566BCC841DC6602E0043FD41 /* UserNotifications.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -139,7 +113,6 @@
 				56441BD81DAC30560080F48E /* Radio Graydon */,
 				56441BEF1DAC30570080F48E /* Radio GraydonTests */,
 				56441BFA1DAC30570080F48E /* Radio GraydonUITests */,
-				566BCC871DC6602E0043FD41 /* Extension */,
 				56441BD71DAC30560080F48E /* Products */,
 				5F16D2DAB2835CA74545383C /* Pods */,
 				E6574359A3FC44C3800784FD /* Frameworks */,
@@ -152,7 +125,6 @@
 				56441BD61DAC30560080F48E /* Radio Graydon.app */,
 				56441BEC1DAC30570080F48E /* Radio GraydonTests.xctest */,
 				56441BF71DAC30570080F48E /* Radio GraydonUITests.xctest */,
-				566BCC821DC6602E0043FD41 /* Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,16 +161,6 @@
 				56441BFD1DAC30570080F48E /* Info.plist */,
 			);
 			path = "Radio GraydonUITests";
-			sourceTree = "<group>";
-		};
-		566BCC871DC6602E0043FD41 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				566BCC881DC6602E0043FD41 /* NotificationViewController.swift */,
-				566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */,
-				566BCC8D1DC6602E0043FD41 /* Info.plist */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		5F16D2DAB2835CA74545383C /* Pods */ = {
@@ -242,7 +204,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				566BCC8F1DC6602E0043FD41 /* PBXTargetDependency */,
 			);
 			name = "Radio Graydon";
 			productName = "Radio Graydon";
@@ -285,23 +246,6 @@
 			productReference = 56441BF71DAC30570080F48E /* Radio GraydonUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		566BCC811DC6602E0043FD41 /* Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 566BCC931DC6602E0043FD41 /* Build configuration list for PBXNativeTarget "Extension" */;
-			buildPhases = (
-				566BCC7E1DC6602E0043FD41 /* Sources */,
-				566BCC7F1DC6602E0043FD41 /* Frameworks */,
-				566BCC801DC6602E0043FD41 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Extension;
-			productName = Extension;
-			productReference = 566BCC821DC6602E0043FD41 /* Extension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -329,11 +273,6 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = 56441BD51DAC30560080F48E;
 					};
-					566BCC811DC6602E0043FD41 = {
-						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = NU9CBG8KLT;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 56441BD11DAC30560080F48E /* Build configuration list for PBXProject "Radio Graydon" */;
@@ -352,7 +291,6 @@
 				56441BD51DAC30560080F48E /* Radio Graydon */,
 				56441BEB1DAC30570080F48E /* Radio GraydonTests */,
 				56441BF61DAC30570080F48E /* Radio GraydonUITests */,
-				566BCC811DC6602E0043FD41 /* Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -379,14 +317,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		566BCC801DC6602E0043FD41 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				566BCC8C1DC6602E0043FD41 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,14 +413,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		566BCC7E1DC6602E0043FD41 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				566BCC891DC6602E0043FD41 /* NotificationViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -503,11 +425,6 @@
 			isa = PBXTargetDependency;
 			target = 56441BD51DAC30560080F48E /* Radio Graydon */;
 			targetProxy = 56441BF81DAC30570080F48E /* PBXContainerItemProxy */;
-		};
-		566BCC8F1DC6602E0043FD41 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 566BCC811DC6602E0043FD41 /* Extension */;
-			targetProxy = 566BCC8E1DC6602E0043FD41 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -526,14 +443,6 @@
 				56441BE51DAC30560080F48E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		566BCC8A1DC6602E0043FD41 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				566BCC8B1DC6602E0043FD41 /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -732,34 +641,6 @@
 			};
 			name = Release;
 		};
-		566BCC911DC6602E0043FD41 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = NU9CBG8KLT;
-				INFOPLIST_FILE = Extension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.carol.radiograydon.Extension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		566BCC921DC6602E0043FD41 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = NU9CBG8KLT;
-				INFOPLIST_FILE = Extension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.carol.radiograydon.Extension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -795,15 +676,6 @@
 			buildConfigurations = (
 				56441C071DAC30570080F48E /* Debug */,
 				56441C081DAC30570080F48E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		566BCC931DC6602E0043FD41 /* Build configuration list for PBXNativeTarget "Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				566BCC911DC6602E0043FD41 /* Debug */,
-				566BCC921DC6602E0043FD41 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
