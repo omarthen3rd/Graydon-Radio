@@ -253,47 +253,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
-    func getAnnouncements() {
-        
-        Alamofire.request("https://radiograydon.me/api/v1/anns").responseJSON { (Response) in
-            
-            if let value = Response.result.value {
-                
-                let json = JSON(value)
-                
-                print(json.count)
-                
-                for annItem in json.array! {
-                    
-                    let dateFormatter = DateFormatter()
-                    let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
-                    dateFormatter.locale = enCAPosixLocale as Locale!
-                    dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
-                    dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
-                    let displayString = dateFormatter.string(from: annItem["date"].date!)
-                    // self.detailDate.append(displayString)
-                    
-                    let dateFormatterCell = DateFormatter()
-                    let enCAlocale = NSLocale(localeIdentifier: "en_CA")
-                    dateFormatterCell.locale = enCAlocale as Locale!
-                    dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
-                    let displayStringCell = dateFormatterCell.string(from: annItem["date"].date!)
-                    // self.tableDate.append(displayStringCell)
-                    
-                    // let newAnn: Announcement = Announcement(id: ann["id"].intValue, annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
-                    // self.announcements.append(newAnn)
-                    
-                }
-                
-                DispatchQueue.main.async { 
-                    
-                    self.tableView.reloadData()
-                    
-                }
-            }
-        }
-    }
-    
     func setupTheme() {
         
         self.resultSearchController = ({
@@ -453,11 +412,11 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if self.resultSearchController.isActive {
             
-            return self.filteredAnnouncements.count
+            return self.filteredAnnouncements.count + 1
 
         } else {
             
-            return announcements.count
+            return announcements.count + 1
             
         }
     }
@@ -467,7 +426,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if cell.tag == 1337 {
             if !(announcements.isEmpty) {
-                print("ran empty")
                 let ann = announcements.last!
                 self.idToUse = ann.id
                 getAnns(25, self.idToUse)
@@ -532,22 +490,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         if !(self.resultSearchController.isActive) {
             self.resultSearchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
         }
-        
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        let deltaOffset = maximumOffset - currentOffset
-        
-        /* if deltaOffset <= 0 {
-            if !(announcements.isEmpty) {
-                let ann = announcements.last!
-                self.idToUse = ann.id
-                getAnns(25, self.idToUse)
-                
-            } else {
-                print("ran else")
-            }
-        } */
-        
         
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
