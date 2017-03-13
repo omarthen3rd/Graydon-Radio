@@ -11,6 +11,18 @@ import SwiftyJSON
 import Alamofire
 import Spring
 
+extension UIButton {
+    func setBackgroundColor(color: UIColor, forState: UIControlState) {
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        UIGraphicsGetCurrentContext()!.setFillColor(color.cgColor)
+        UIGraphicsGetCurrentContext()!.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        self.setBackgroundImage(colorImage, for: forState)
+    }
+}
+
+
 extension MasterViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -91,6 +103,7 @@ class CustomTableViewCell: UITableViewCell {
         bgView.layer.shadowColor = UIColor(red:0.00, green:0.00, blue:0.00, alpha:0.60).cgColor
         bgView.layer.shadowOffset = CGSize(width: 0, height: 4)
         bgView.layer.shadowRadius = 4.0
+        bgView.layer.shadowPath = UIBezierPath(rect: bgView.bounds).cgPath
         
         titleView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         
@@ -265,19 +278,12 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             controller.searchBar.barTintColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
             controller.searchBar.isTranslucent = true
             controller.searchBar.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-            let textFieldInsideSearchBar = controller.searchBar.value(forKey: "searchField") as? UITextField
-            textFieldInsideSearchBar?.textColor = UIColor.white
-            
-            for subview in controller.searchBar.subviews {
-                for secondLevel in subview.subviews {
-                    if secondLevel.isKind(of: UITextField.self) {
-                        if let searchBarTextField: UITextField = secondLevel as? UITextField {
-                            searchBarTextField.textColor = UIColor.white
-                            break
-                        }
-                    }
-                }
-            }
+            let textSearchBar = controller.searchBar.value(forKey: "searchField") as? UITextField
+            textSearchBar?.textColor = UIColor.black
+            let placeholderTextSearchBar = textSearchBar!.value(forKey: "placeholderLabel") as? UILabel
+            placeholderTextSearchBar?.textColor = UIColor.lightGray
+            let glassIconView = textSearchBar?.leftView as! UIImageView
+            glassIconView.tintColor = UIColor.lightGray
             
             self.tableView.tableHeaderView = controller.searchBar
             return controller
@@ -319,8 +325,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         activityIndicator.center = cell.center
-        cell.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
+        // cell.addSubview(activityIndicator)
+        // activityIndicator.startAnimating()
         cell.tag = 1337
         return cell
     }
@@ -412,7 +418,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if self.resultSearchController.isActive {
             
-            return self.filteredAnnouncements.count + 1
+            return self.filteredAnnouncements.count
 
         } else {
             
@@ -489,6 +495,12 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         }
         if !(self.resultSearchController.isActive) {
             self.resultSearchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
+            let textSearchBar = resultSearchController.searchBar.value(forKey: "searchField") as? UITextField
+            textSearchBar?.textColor = UIColor.black
+            let placeholderTextSearchBar = textSearchBar!.value(forKey: "placeholderLabel") as? UILabel
+            placeholderTextSearchBar?.textColor = UIColor.white
+            let glassIconView = textSearchBar?.leftView as! UIImageView
+            glassIconView.tintColor = UIColor.white
         }
         
     }

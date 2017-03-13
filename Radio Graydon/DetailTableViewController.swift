@@ -26,6 +26,7 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         actionSheet()
     }
     @IBOutlet weak var reportIssueView: UIView!
+    @IBOutlet var reportIssueButton: UIButton!
     @IBAction func reportIssueBtn(_ sender: Any) {
         
         let mailComposeViewController = sendMail()
