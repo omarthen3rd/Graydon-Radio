@@ -32,8 +32,6 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         let mailComposeViewController = sendMail()
         if MFMailComposeViewController.canSendMail() {
             present(mailComposeViewController, animated: true, completion: nil)
-        } else {
-            print("Unable to send mail")
         }
         
     }
@@ -362,15 +360,5 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

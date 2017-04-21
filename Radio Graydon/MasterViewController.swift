@@ -307,14 +307,14 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         tableView.setContentOffset(searchOffset, animated: false)
         
         let logo = UIImage(named: "graydonGlyph2")
-        let imageView = UIImageView(image: logo)
+        // let imageView = UIImageView(image: logo)
         self.title = "Graydon Radio"
         // self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red:1.00, green:0.93, blue:0.10, alpha:1.0)]
         // self.navigationItem.titleView = imageView
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
-        bgView.image = bgImage?.applyBlurWithRadius(8, tintColor: UIColor(white:0.0, alpha:0.5), saturationDeltaFactor: 3)
+        bgView.image = bgImage?.applyBlurWithRadius(20, tintColor: UIColor(white:0.0, alpha:0.5), saturationDeltaFactor: 3)
         bgView.contentMode = .scaleAspectFill
         self.tableView.backgroundView = bgView
         // self.tableView.backgroundColor = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
@@ -385,7 +385,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
-        } else if let cell = sender as? CustomTableViewCell, segue.identifier == "showDetailPeek" {
+        } else if let _ = sender as? CustomTableViewCell, segue.identifier == "showDetailPeek" {
+            
             if let indexPath = self.tableView.indexPathForSelectedRow {
             
                 let annDetail : Announcement
