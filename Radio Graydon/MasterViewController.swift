@@ -119,6 +119,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     var detailViewController: DetailTableViewController? = nil
     
     var idToUse = 0
+    var didLoadAllAnnouncements = false
     
     var tableDate = [String]()
     var detailDate = [String]()
@@ -150,15 +151,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if (self.view.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.compact) {
-            // self.navigationItem.titleView?.frame = CGRect(x: (self.navigationItem.titleView?.frame.origin.x)!, y: (self.navigationItem.titleView?.frame.origin.y)!, width: 15, height: 15)
-        } else if (self.view.traitCollection.verticalSizeClass == UIUserInterfaceSizeClass.regular) {
-            // self.navigationItem.titleView?.frame = CGRect(x: (self.navigationItem.titleView?.frame.origin.x)!, y: (self.navigationItem.titleView?.frame.origin.y)!, width: 25, height: 25)
-        }
-    }
-    
     // MARK: - Functions
     
     func refreshTableView() {
@@ -166,7 +158,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
             self.announcements.removeAll()
-            // self.getAnnouncements()
             self.getAnns(25, 0)
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
@@ -176,56 +167,24 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     func getAnns(_ annCount: Int, _ before: Int) {
         
-        if before == 0 {
+        var urlToUse = ""
+        
+        switch before {
+        case 0:
+            urlToUse = "https://radiograydon.me/api/v1/anns?count=\(annCount)"
+        default:
+            urlToUse = "https://radiograydon.me/api/v1/anns?count=\(annCount)&before=\(before)"
+        }
+        
+        if !self.didLoadAllAnnouncements {
             
-            Alamofire.request("https://radiograydon.me/api/v1/anns?count=\(annCount)").responseJSON { (Response) in
+            Alamofire.request(urlToUse).responseJSON { (Response) in
                 
                 if let value = Response.result.value {
                     
                     let json = JSON(value)
                     
-                    for ann in json.arrayValue {
-                        
-                        let dateFormatter = DateFormatter()
-                        let enCAPosixLocale = NSLocale(localeIdentifier: "en-CA")
-                        dateFormatter.locale = enCAPosixLocale as Locale!
-                        dateFormatter.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
-                        dateFormatter.setLocalizedDateFormatFromTemplate("MMMM d, yyyy")
-                        let displayString = dateFormatter.string(from: ann["date"].date!)
-                        // let dateThingy = dateFormatter.date(from: ann["date"].stringValue)
-                        self.detailDate.append(displayString)
-                        
-                        let dateFormatterCell = DateFormatter()
-                        let enCAlocale = NSLocale(localeIdentifier: "en_CA")
-                        dateFormatterCell.locale = enCAlocale as Locale!
-                        dateFormatterCell.timeZone = NSTimeZone(abbreviation: "UTC") as TimeZone!
-                        // dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
-                        dateFormatterCell.setLocalizedDateFormatFromTemplate("MMM d")
-                        let displayStringCell = dateFormatterCell.string(from: ann["date"].date!)
-                        self.tableDate.append(displayStringCell)
-                        
-                        let newAnn: Announcement = Announcement(id: ann["id"].intValue, annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
-                        self.announcements.append(newAnn)
-                        
-                    }
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.tableView.reloadData()
-                        
-                    }
-                    
-                }
-                
-            }
-            
-        } else {
-            
-            Alamofire.request("https://radiograydon.me/api/v1/anns?count=\(annCount)&before=\(before)").responseJSON { (Response) in
-                
-                if let value = Response.result.value {
-                    
-                    let json = JSON(value)
+                    let prevAnns = self.announcements.count
                     
                     for ann in json.arrayValue {
                         
@@ -253,6 +212,12 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                     DispatchQueue.main.async {
                         
                         self.tableView.reloadData()
+                        
+                    }
+                    
+                    if prevAnns == self.announcements.count {
+                        
+                        self.didLoadAllAnnouncements = true
                         
                     }
                     
@@ -261,8 +226,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             }
             
         }
-        
-
         
     }
     
@@ -306,29 +269,14 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         let searchOffset = CGPoint(x: 0, y: 44)
         tableView.setContentOffset(searchOffset, animated: false)
         
-        let logo = UIImage(named: "graydonGlyph2")
-        // let imageView = UIImageView(image: logo)
         self.title = "Graydon Radio"
-        // self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red:1.00, green:0.93, blue:0.10, alpha:1.0)]
-        // self.navigationItem.titleView = imageView
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
         bgView.image = bgImage?.applyBlurWithRadius(20, tintColor: UIColor(white:0.0, alpha:0.5), saturationDeltaFactor: 3)
         bgView.contentMode = .scaleAspectFill
         self.tableView.backgroundView = bgView
-        // self.tableView.backgroundColor = UIColor(red:0.94, green:0.94, blue:0.94, alpha:1.0)
         
-    }
-    
-    func loadingCell() -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        activityIndicator.center = cell.center
-        // cell.addSubview(activityIndicator)
-        // activityIndicator.startAnimating()
-        cell.tag = 1337
-        return cell
     }
     
     func filterContentForSearchText(searchText: String) {
@@ -338,6 +286,22 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         })
         self.tableView.reloadData()
         
+    }
+    
+    func loadingCell() -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        cell.selectionStyle = .none
+        cell.frame = CGRect(x: 0, y: 30, width: tableView.bounds.width, height: 40)
+        let label = UILabel(frame: cell.frame)
+        label.text = "Wow you must be really bored..."
+        label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightMedium)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        if self.didLoadAllAnnouncements {
+            cell.addSubview(label)
+        }
+        cell.tag = 1337
+        return cell
     }
 
     func sendNotification() {
@@ -436,8 +400,9 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 let ann = announcements.last!
                 self.idToUse = ann.id
                 getAnns(25, self.idToUse)
-            } else {
-                print("ran else")
+                if self.didLoadAllAnnouncements {
+                    cell.tag = 1234
+                }
             }
         }
         
@@ -450,9 +415,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
             
             var announcement : Announcement
-            
-            // let imageView = UIImage(named: "dIndicator")
-            // cell.accessoryView = UIImageView(image: imageView)
             
             if self.resultSearchController.isActive && resultSearchController.searchBar.text != "" {
                 
@@ -485,7 +447,6 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         } else {
             return loadingCell()
         }
-        
         
     }
     

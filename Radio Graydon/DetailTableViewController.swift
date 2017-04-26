@@ -29,10 +29,12 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
     @IBOutlet var reportIssueButton: UIButton!
     @IBAction func reportIssueBtn(_ sender: Any) {
         
-        let mailComposeViewController = sendMail()
-        if MFMailComposeViewController.canSendMail() {
+        // let mailComposeViewController = sendMail()
+        /* if MFMailComposeViewController.canSendMail() {
             present(mailComposeViewController, animated: true, completion: nil)
-        }
+        } */
+        
+        showMailAppActionSheet()
         
     }
     
@@ -103,6 +105,130 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         
         bodyView.layer.cornerRadius = 10.0
         bodyView.layer.masksToBounds = true
+        
+    }
+    
+    func showMailAppActionSheet() {
+        
+        let alertCtrl = UIAlertController(title: "Choose Mail App", message: "Which mail app would you like to you?", preferredStyle: .actionSheet)
+        
+        let defaultMailApp = UIAlertAction(title: "Mail", style: .default) { (action) in
+            
+            self.openMailApp("Apple Mail")
+            
+        }
+        
+        let gmailApp = UIAlertAction(title: "Gmail", style: .default) { (action) in
+            
+            self.openMailApp("Gmail")
+            
+        }
+        
+        let sparkApp = UIAlertAction(title: "Spark", style: .default) { (action) in
+            
+            self.openMailApp("Spark")
+            
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertCtrl.addAction(defaultMailApp)
+        alertCtrl.addAction(gmailApp)
+        alertCtrl.addAction(sparkApp)
+        alertCtrl.addAction(cancelAction)
+        self.present(alertCtrl, animated: true, completion: nil)
+        
+    }
+    
+    func openMailApp(_ mailAppToUse: String) {
+        
+        switch mailAppToUse {
+        case "Apple Mail":
+            
+            let mailComposeViewController = sendMail()
+            if MFMailComposeViewController.canSendMail() {
+                present(mailComposeViewController, animated: true, completion: nil)
+            }
+            
+        case "Gmail":
+            
+            if let url = URL(string: "googlegmail:///co?subject=&\(self.annTitle.text!)=&to=gordongraydonradio@gmail.com") {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            self.createAlert(title: "Failed To Open Gmail", message: "Make sure you have Gmail installed on your device.")
+                        }
+                        
+                    })
+                } else {
+                    // Fallback on previous versions
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.openURL(url)
+                    } else {
+                        self.createAlert(title: "Failed To Open Gmail", message: "Make sure you have Gmail installed on your device.")
+                    }
+                    
+                }
+            }
+            
+        case "Spark":
+            print("spark")
+            
+            //  readdle-spark://compose?subject=test&body=test2&recipient=test@test.com
+            
+            if let url = URL(string: "readdle-spark://compose?subject=\(self.annTitle.text!)&body=There is an issuse will the announcement: \(self.annTitle.text!)&gordongraydonradio@gmail.com") {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            self.createAlert(title: "Failed To Open Spark", message: "Make sure you have Spark installed on your device.")
+                        }
+                        
+                    })
+                } else {
+                    // Fallback on previous versions
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.openURL(url)
+                    } else {
+                        self.createAlert(title: "Failed To Open Spark", message: "Make sure you have Spark installed on your device.")
+                    }
+                    
+                }
+            }
+            
+        default:
+            
+            let mailComposeViewController = sendMail()
+            if MFMailComposeViewController.canSendMail() {
+                present(mailComposeViewController, animated: true, completion: nil)
+            }
+            
+        }
+        
+        if mailAppToUse == "Gmail" {
+            
+            if let url = URL(string: "googlegmail:///co?subject=&body=&to=touser") {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                        
+                        if !success {
+                            self.createAlert(title: "Failed To Open Gmail", message: "Make sure you have Gmail installed on your device.")
+                        }
+                        
+                    })
+                } else {
+                    // Fallback on previous versions
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.openURL(url)
+                    } else {
+                        self.createAlert(title: "Failed To Open Gmail", message: "Make sure you have Gmail installed on your device.")
+                    }
+                    
+                }
+            }
+            
+        }
         
     }
     
@@ -272,6 +398,14 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         localNotification.alertAction = "view"
         localNotification.fireDate = NSDate(timeIntervalSinceNow: TimeInterval(timeToRemind)) as Date
         UIApplication.shared.scheduleLocalNotification(localNotification)
+        
+    }
+    
+    func createAlert(title: String, message: String) {
+        
+        let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertView.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+        self.present(alertView, animated: true, completion: nil)
         
     }
     
