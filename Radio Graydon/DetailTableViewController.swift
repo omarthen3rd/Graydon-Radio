@@ -110,7 +110,7 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
     
     func showMailAppActionSheet() {
         
-        let alertCtrl = UIAlertController(title: "Choose Mail App", message: "Which mail app would you like to you?", preferredStyle: .actionSheet)
+        let alertCtrl = UIAlertController(title: "Choose Mail App", message: "Which mail app would you like to use?", preferredStyle: .actionSheet)
         
         let defaultMailApp = UIAlertAction(title: "Mail", style: .default) { (action) in
             
@@ -151,12 +151,15 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
             }
             
         case "Gmail":
-            
-            if let url = URL(string: "googlegmail:///co?subject=&\(self.annTitle.text!)=&to=gordongraydonradio@gmail.com") {
+            let string = self.annDetailItem?.annTitle
+            let body = "There is an issue with this announcement: "
+            let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+            let encodedString = string?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+            if let url = URL(string: "googlegmail:///co?to=gordongraydonradio@gmail.com&subject=\(encodedString!)&body=\(encodedBody!)\(encodedString!)") {
                 if #available(iOS 10.0, *) {
                     UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
                         
-                        if !success {
+                        if success == false {
                             self.createAlert(title: "Failed To Open Gmail", message: "Make sure you have Gmail installed on your device.")
                         }
                         
@@ -170,14 +173,17 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
                     }
                     
                 }
+            } else {
+                self.createAlert(title: "There's Been A Slight Complication", message: "Please report this issue to the developer.")
             }
             
         case "Spark":
-            print("spark")
             
-            //  readdle-spark://compose?subject=test&body=test2&recipient=test@test.com
-            
-            if let url = URL(string: "readdle-spark://compose?subject=\(self.annTitle.text!)&body=There is an issuse will the announcement: \(self.annTitle.text!)&gordongraydonradio@gmail.com") {
+            let string = self.annDetailItem?.annTitle
+            let body = "There is an issue with this announcement: "
+            let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+            let encodedString = string?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
+            if let url = URL(string: "readdle-spark://compose?subject=\(encodedString!)&body=\(encodedBody!)\(encodedString!)&recipient=gordongraydonradio@gmail.com") {
                 if #available(iOS 10.0, *) {
                     UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
                         
@@ -195,6 +201,8 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
                     }
                     
                 }
+            } else {
+                self.createAlert(title: "There's Been A Slight Complication", message: "Please report this issue to the developer.")
             }
             
         default:
@@ -269,7 +277,6 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
                 let dateComponents = calendar.dateComponents(unitFlags, from: start, to: dateObj!)
                 let seconds = dateComponents.second
                 self.timeToRemind = seconds!
-                print(self.timeToRemind)
                 self.remindLater()
                 let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 10:45 AM tomorrow", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -319,7 +326,6 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
                 let dateComponents = calendar.dateComponents(unitFlags, from: start, to: dateObj!)
                 let seconds = dateComponents.second
                 self.timeToRemind = seconds!
-                print(self.timeToRemind)
                 self.remindLater()
                 let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 2:30 PM tomorrow", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -330,7 +336,6 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
             } else {
                 
                 self.timeToRemind = seconds!
-                print(self.timeToRemind)
                 self.remindLater()
                 let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 2:30 PM today", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -364,7 +369,6 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
             let dateComponents = calendar.dateComponents(unitFlags, from: start, to: dateObj!)
             let seconds = dateComponents.second
             self.timeToRemind = seconds!
-            print(self.timeToRemind)
             self.remindLater()
             let alert = UIAlertController(title: "Radio Graydon Will Remind You", message: "Radio Graydon will remind you about \(self.annTitle.text!) at 8:00 AM tomorrow", preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
