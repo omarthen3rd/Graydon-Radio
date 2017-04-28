@@ -117,18 +117,21 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
             self.openMailApp("Apple Mail")
             
         }
+        defaultMailApp.setValue(UIImage(named: "appleMail")?.withRenderingMode(.alwaysOriginal), forKey: "image")
         
         let gmailApp = UIAlertAction(title: "Gmail", style: .default) { (action) in
             
             self.openMailApp("Gmail")
             
         }
+        gmailApp.setValue(UIImage(named: "gmail")?.withRenderingMode(.alwaysOriginal), forKey: "image")
         
         let sparkApp = UIAlertAction(title: "Spark", style: .default) { (action) in
             
             self.openMailApp("Spark")
             
         }
+        sparkApp.setValue(UIImage(named: "spark")?.withRenderingMode(.alwaysOriginal), forKey: "image")
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
@@ -157,11 +160,10 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
             let encodedString = string?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
             if let url = URL(string: "googlegmail:///co?to=gordongraydonradio@gmail.com&subject=\(encodedString!)&body=\(encodedBody!)\(encodedString!)") {
                 if #available(iOS 10.0, *) {
+                    
                     UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
                         
-                        if success == false {
-                            self.createAlert(title: "Failed To Open Gmail", message: "Make sure you have Gmail installed on your device.")
-                        }
+                        // apparently gmail doesn't know what a successful completion handler it
                         
                     })
                 } else {
