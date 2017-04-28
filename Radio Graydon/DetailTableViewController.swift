@@ -135,6 +135,7 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
+        alertCtrl.view.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         alertCtrl.addAction(defaultMailApp)
         alertCtrl.addAction(gmailApp)
         alertCtrl.addAction(sparkApp)
@@ -383,6 +384,7 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         // add action to controller
+        alertCtrl.view.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         alertCtrl.addAction(lunch)
         alertCtrl.addAction(endDay)
         alertCtrl.addAction(tomorrowMorning)
