@@ -26,13 +26,9 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         actionSheet()
     }
     @IBOutlet weak var reportIssueView: UIView!
+    @IBOutlet var springRemindView: SpringView!
     @IBOutlet var reportIssueButton: UIButton!
     @IBAction func reportIssueBtn(_ sender: Any) {
-        
-        // let mailComposeViewController = sendMail()
-        /* if MFMailComposeViewController.canSendMail() {
-            present(mailComposeViewController, animated: true, completion: nil)
-        } */
         
         showMailAppActionSheet()
         
@@ -68,9 +64,11 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
     // MARK: - Functions
     
     var annDetailItem: Announcement? {
+        
         didSet {
             self.configureAnnView()
         }
+        
     }
     
     func configureAnnView() {
@@ -140,6 +138,10 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         alertCtrl.addAction(gmailApp)
         alertCtrl.addAction(sparkApp)
         alertCtrl.addAction(cancelAction)
+        
+        alertCtrl.popoverPresentationController?.sourceView = reportIssueButton
+        alertCtrl.popoverPresentationController?.sourceRect = reportIssueButton.bounds
+        
         self.present(alertCtrl, animated: true, completion: nil)
         
     }

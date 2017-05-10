@@ -130,14 +130,14 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="80" id="nHl-fB-wVG">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="80" id="nHl-fB-wVG">
                                         <rect key="frame" x="0.0" y="142" width="375" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nHl-fB-wVG" id="mgC-Ij-jfa">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ac1-nA-xTa">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ac1-nA-xTa" customClass="SpringView" customModule="Spring">
                                                     <rect key="frame" x="8" y="8" width="359" height="64"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gnr-wO-wBI">
@@ -146,6 +146,10 @@
                                                             <state key="normal" title="Report An Issue">
                                                                 <color key="titleColor" red="0.99963909390000005" green="1" blue="0.99975615740000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="autohide" value="NO"/>
+                                                            </userDefinedRuntimeAttributes>
                                                             <connections>
                                                                 <action selector="reportIssueBtn:" destination="xc7-0M-nWY" eventType="touchUpInside" id="HkL-pG-UrD"/>
                                                             </connections>
@@ -159,6 +163,10 @@
                                                         <constraint firstAttribute="height" constant="64" id="mNh-om-hqY"/>
                                                         <constraint firstAttribute="trailing" secondItem="Gnr-wO-wBI" secondAttribute="trailing" id="tzH-gw-aUa"/>
                                                     </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="string" keyPath="animation" value="slideUp"/>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="autostart" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
                                             </subviews>
                                             <constraints>
@@ -195,6 +203,7 @@
                         <outlet property="remindBtn" destination="a90-FT-q9n" id="inj-Ui-OlM"/>
                         <outlet property="reportIssueButton" destination="Gnr-wO-wBI" id="KGy-Mf-GaF"/>
                         <outlet property="reportIssueView" destination="ac1-nA-xTa" id="e4Y-zh-jBb"/>
+                        <outlet property="springRemindView" destination="ac1-nA-xTa" id="12j-UX-1Yi"/>
                         <outlet property="titleView" destination="3bP-Sb-a8S" id="iU6-bO-Rf9"/>
                     </connections>
                 </tableViewController>
