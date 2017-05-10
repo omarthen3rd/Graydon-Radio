@@ -107,6 +107,12 @@ class CustomTableViewCell: UITableViewCell {
         
         titleView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
         
+        // let blurEffect = UIBlurEffect(style: .dark)
+        // let newSelectedView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
+        // newSelectedView.frame = self.bounds
+        
+        selectedBackgroundView = UIVisualEffectView(frame: self.bounds)
+        
         // var cellView = self.accessoryView?.frame
         // cellView?.origin.y = 14.5
         // self.accessoryView?.frame = cellView!
@@ -141,13 +147,26 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         
-        if let split = self.splitViewController {
-           let controllers = split.viewControllers
-           self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailTableViewController
-        }
+        var dataToPass: Announcement!
         
         setupTheme()
-        getAnns(25, idToUse)
+        getAnns(25, idToUse) { (success) in
+            
+            if success {
+                
+                dataToPass = self.announcements.first!
+                
+                if let split = self.splitViewController {
+                    let controllers = split.viewControllers
+                    self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailTableViewController
+                    
+                    self.detailViewController?.annDetailItem = dataToPass
+                    print("ran this2: " + "\(dataToPass)")
+                }
+                
+            }
+            
+        }
         
     }
     
@@ -158,14 +177,17 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             
             self.announcements.removeAll()
-            self.getAnns(25, 0)
-            self.tableView.reloadData()
-            self.refreshControl?.endRefreshing()
+            self.getAnns(26, 0, completionHandler: { (success) in
+                
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+                
+            })
             
         })
     }
     
-    func getAnns(_ annCount: Int, _ before: Int) {
+    func getAnns(_ annCount: Int, _ before: Int, completionHandler: @escaping (Bool) -> Void) {
         
         var urlToUse = ""
         
@@ -220,6 +242,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                         self.didLoadAllAnnouncements = true
                         
                     }
+                    
+                    completionHandler(true)
                     
                 }
                 
@@ -399,7 +423,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             if !(announcements.isEmpty) {
                 let ann = announcements.last!
                 self.idToUse = ann.id
-                getAnns(25, self.idToUse)
+                getAnns(25, self.idToUse, completionHandler: { (success) in })
                 if self.didLoadAllAnnouncements {
                     cell.tag = 1234
                 }

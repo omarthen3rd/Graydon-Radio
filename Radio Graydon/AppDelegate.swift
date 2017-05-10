@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         
         application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil))
                 
-        //UINavigationBar.appearance().tintColor = UIColor(red: 0.08, green: 0.65, blue: 0.08, alpha: 1.0)
+        // UINavigationBar.appearance().tintColor = UIColor(red: 0.08, green: 0.65, blue: 0.08, alpha: 1.0)
         UIApplication.shared.statusBarStyle = .default
 
         return true
