@@ -211,7 +211,7 @@
                         <sections>
                             <tableViewSection id="nJO-as-04u">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="59" id="Ji5-Dj-Qac">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="59" id="Ji5-Dj-Qac">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ji5-Dj-Qac" id="WeO-9K-MKO">
@@ -234,7 +234,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="71" id="shh-FK-Xd9">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="71" id="shh-FK-Xd9">
                                         <rect key="frame" x="0.0" y="59" width="375" height="71"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="shh-FK-Xd9" id="Hi7-WD-QsI">
@@ -265,6 +265,36 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="66" id="VcA-W6-i5l">
+                                        <rect key="frame" x="0.0" y="130" width="375" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VcA-W6-i5l" id="G3A-vI-Cok">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="65.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mbH-rn-fZ0">
+                                                    <rect key="frame" x="16" y="8" width="343" height="49.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="49.5" id="faN-eV-pyV"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <state key="normal" title="Report An Issue"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="10"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="mbH-rn-fZ0" secondAttribute="trailing" constant="8" id="3zS-cs-x5H"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="mbH-rn-fZ0" secondAttribute="bottom" id="A9N-Tt-dwJ"/>
+                                                <constraint firstItem="mbH-rn-fZ0" firstAttribute="top" secondItem="G3A-vI-Cok" secondAttribute="topMargin" id="fHT-J4-FuT"/>
+                                                <constraint firstItem="mbH-rn-fZ0" firstAttribute="leading" secondItem="G3A-vI-Cok" secondAttribute="leadingMargin" constant="8" id="vb4-yr-Gcg"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -276,12 +306,13 @@
                     <connections>
                         <outlet property="bodyLabel" destination="Uul-nI-7k1" id="YXV-WX-goJ"/>
                         <outlet property="dateLabel" destination="QEl-RN-Bq6" id="Sd9-Hk-4vq"/>
+                        <outlet property="reportAnIssue" destination="mbH-rn-fZ0" id="vqv-O8-HQY"/>
                         <outlet property="titleLabel" destination="UTf-dx-qNT" id="Yk4-yZ-E1P"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rue-cz-7xA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-220" y="-1094"/>
+            <point key="canvasLocation" x="-220" y="-1094.3028485757122"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="2Ok-v4-blo">

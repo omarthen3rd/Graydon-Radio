@@ -41,14 +41,14 @@ extension MasterViewController : UIViewControllerPreviewingDelegate, UISplitView
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
         guard let indexPath = tableView.indexPathForRow(at: location),
-            let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell else {
+            let cell = tableView.cellForRow(at: indexPath) as? AnnounementTableViewCell else {
                 return nil
         }
         
-        guard let DetailVC = storyboard?.instantiateViewController(withIdentifier: "DetailTableViewController") as? DetailTableViewController else { return nil }
+        guard let DetailVC = storyboard?.instantiateViewController(withIdentifier: "DetailTableViewController2") as? DetailTableViewController2 else { return nil }
 
         let annDetail = announcements[indexPath.row]
-        DetailVC.annDetailItem = annDetail
+        DetailVC.announcement = annDetail
         previewingContext.sourceRect = cell.frame
         
         return DetailVC
@@ -152,6 +152,15 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     var resultSearchController = UISearchController(searchResultsController: nil)
     
     // MARK: - Default Functions
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if #available(iOS 11.0, *) {
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -331,10 +340,10 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         tableView.addSubview(refreshControl!)
         
         // UINavigationBar.appearance().tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-        // navigationController?.navigationBar.barStyle = .default
+        self.navigationController?.navigationBar.tintColor = UIColor.graydonColor
         // UIApplication.shared.statusBarStyle = .default
         
-        self.title = "Announcements"
+        self.title = "Graydon Radio"
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
@@ -460,15 +469,23 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let ann = announcements[indexPath.row]
-        let vc = self.storyboard!.instantiateViewController(withIdentifier: "DetailTableViewController2") as! DetailTableViewController2
-        vc.announcement = ann
-        let nav = UINavigationController(rootViewController: vc)
-        self.present(nav, animated: true) {
+        self.tableView.deselectRow(at: indexPath, animated: true)
+        
+        let ann: Announcement
+        
+        if resultSearchController.isActive {
             
+            ann = filteredAnnouncements[indexPath.row]
             
+        } else {
+            
+            ann = announcements[indexPath.row]
             
         }
+        let vc = self.storyboard!.instantiateViewController(withIdentifier: "DetailTableViewController2") as! DetailTableViewController2
+        vc.announcement = ann
+        // let nav = UINavigationController(rootViewController: vc)
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
 
