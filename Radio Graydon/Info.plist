@@ -23,10 +23,17 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
+		<true/>
 	</dict>
 	<key>UIApplicationShortcutItems</key>
-	<array/>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.omarabbasi.</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Search</string>
+		</dict>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

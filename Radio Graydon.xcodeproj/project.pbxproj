@@ -7,16 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56106AC41F69ABD400E35A79 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A781E00C699005C8B10 /* Alamofire.framework */; };
+		56106AC61F69AEEC00E35A79 /* AnnouncementCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56106AC51F69AEEC00E35A79 /* AnnouncementCell.xib */; };
+		56106AC81F69B07D00E35A79 /* AnnounementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56106AC71F69B07D00E35A79 /* AnnounementTableViewCell.swift */; };
 		5624E73D1EB3962100F984E9 /* Spring.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5624E73C1EB3962100F984E9 /* Spring.framework */; };
+		56386F031F69785700F28F7D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56386F021F69785700F28F7D /* DetailViewController.swift */; };
 		56441BDA1DAC30560080F48E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BD91DAC30560080F48E /* AppDelegate.swift */; };
 		56441BDC1DAC30560080F48E /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BDB1DAC30560080F48E /* MasterViewController.swift */; };
 		56441BE11DAC30560080F48E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56441BDF1DAC30560080F48E /* Main.storyboard */; };
 		56441BE61DAC30560080F48E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56441BE41DAC30560080F48E /* LaunchScreen.storyboard */; };
 		56441BF11DAC30570080F48E /* Radio_GraydonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BF01DAC30570080F48E /* Radio_GraydonTests.swift */; };
 		56441BFC1DAC30570080F48E /* Radio_GraydonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */; };
-		5646E6761DE21F38003C7CDD /* Announcement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5646E6751DE21F38003C7CDD /* Announcement.swift */; };
+		565ACE711F6ADA9B00ECFA9A /* DetailTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565ACE701F6ADA9B00ECFA9A /* DetailTableViewController2.swift */; };
 		5670F25D1E2A8ADB00397391 /* UIImageEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */; };
-		56808A7B1E00C699005C8B10 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A781E00C699005C8B10 /* Alamofire.framework */; };
 		56808A7D1E00C699005C8B10 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56808A7A1E00C699005C8B10 /* SwiftyJSON.framework */; };
 		56A3713A1E0D61DD00D9F9C6 /* DetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A371391E0D61DD00D9F9C6 /* DetailTableViewController.swift */; };
 		56A88B181DB10CFD00451B25 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56A88B171DB10CFD00451B25 /* Images.xcassets */; };
@@ -54,7 +57,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		56106AC51F69AEEC00E35A79 /* AnnouncementCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnnouncementCell.xib; sourceTree = "<group>"; };
+		56106AC71F69B07D00E35A79 /* AnnounementTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounementTableViewCell.swift; sourceTree = "<group>"; };
 		5624E73C1EB3962100F984E9 /* Spring.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spring.framework; path = "../../../../Developer/Xcode/DerivedData/Radio_Graydon-abwqmetrujqqhrgfyvyarwnqyxdy/Build/Products/Debug-iphoneos/Spring/Spring.framework"; sourceTree = "<group>"; };
+		56386F021F69785700F28F7D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		56441BD61DAC30560080F48E /* Radio Graydon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Radio Graydon.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56441BD91DAC30560080F48E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		56441BDB1DAC30560080F48E /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -67,7 +73,7 @@
 		56441BF71DAC30570080F48E /* Radio GraydonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Radio GraydonUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56441BFB1DAC30570080F48E /* Radio_GraydonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radio_GraydonUITests.swift; sourceTree = "<group>"; };
 		56441BFD1DAC30570080F48E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5646E6751DE21F38003C7CDD /* Announcement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Announcement.swift; sourceTree = "<group>"; };
+		565ACE701F6ADA9B00ECFA9A /* DetailTableViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewController2.swift; sourceTree = "<group>"; };
 		566BCC831DC6602E0043FD41 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		566BCC851DC6602E0043FD41 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageEffects.swift; sourceTree = "<group>"; };
@@ -86,8 +92,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56106AC41F69ABD400E35A79 /* Alamofire.framework in Frameworks */,
 				5624E73D1EB3962100F984E9 /* Spring.framework in Frameworks */,
-				56808A7B1E00C699005C8B10 /* Alamofire.framework in Frameworks */,
 				56808A7D1E00C699005C8B10 /* SwiftyJSON.framework in Frameworks */,
 				A2314DF521B24C9C519F93AB /* Pods_Radio_Graydon.framework in Frameworks */,
 			);
@@ -137,12 +143,15 @@
 			children = (
 				5670F25C1E2A8ADB00397391 /* UIImageEffects.swift */,
 				56441BD91DAC30560080F48E /* AppDelegate.swift */,
-				5646E6751DE21F38003C7CDD /* Announcement.swift */,
 				56441BDB1DAC30560080F48E /* MasterViewController.swift */,
 				56A371391E0D61DD00D9F9C6 /* DetailTableViewController.swift */,
+				56386F021F69785700F28F7D /* DetailViewController.swift */,
+				565ACE701F6ADA9B00ECFA9A /* DetailTableViewController2.swift */,
 				56441BDF1DAC30560080F48E /* Main.storyboard */,
 				56441BE41DAC30560080F48E /* LaunchScreen.storyboard */,
 				56441BE71DAC30560080F48E /* Info.plist */,
+				56106AC51F69AEEC00E35A79 /* AnnouncementCell.xib */,
+				56106AC71F69B07D00E35A79 /* AnnounementTableViewCell.swift */,
 				56A88B171DB10CFD00451B25 /* Images.xcassets */,
 			);
 			path = "Radio Graydon";
@@ -304,6 +313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56106AC61F69AEEC00E35A79 /* AnnouncementCell.xib in Resources */,
 				56A88B181DB10CFD00451B25 /* Images.xcassets in Resources */,
 				56441BE61DAC30560080F48E /* LaunchScreen.storyboard in Resources */,
 				56441BE11DAC30560080F48E /* Main.storyboard in Resources */,
@@ -348,13 +358,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Radio Graydon-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		56DF1E341DE3D8EA009D5243 /* Run Script */ = {
@@ -377,9 +390,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Radio Graydon/Pods-Radio Graydon-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Spring/Spring.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Spring.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -394,9 +414,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5670F25D1E2A8ADB00397391 /* UIImageEffects.swift in Sources */,
-				5646E6761DE21F38003C7CDD /* Announcement.swift in Sources */,
 				56A3713A1E0D61DD00D9F9C6 /* DetailTableViewController.swift in Sources */,
+				56386F031F69785700F28F7D /* DetailViewController.swift in Sources */,
+				565ACE711F6ADA9B00ECFA9A /* DetailTableViewController2.swift in Sources */,
 				56441BDC1DAC30560080F48E /* MasterViewController.swift in Sources */,
+				56106AC81F69B07D00E35A79 /* AnnounementTableViewCell.swift in Sources */,
 				56441BDA1DAC30560080F48E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

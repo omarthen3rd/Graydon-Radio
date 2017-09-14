@@ -25,8 +25,6 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
     @IBAction func remindBtn(_ sender: Any) {
         actionSheet()
     }
-    @IBOutlet weak var reportIssueView: UIView!
-    @IBOutlet var springRemindView: SpringView!
     @IBOutlet var reportIssueButton: UIButton!
     @IBAction func reportIssueBtn(_ sender: Any) {
         
@@ -36,7 +34,7 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if #available(iOS 10.0, *) {
             UNUserNotificationCenter.current().requestAuthorization(
                 options: [.alert,.sound,.badge],
@@ -75,10 +73,10 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         
         if self.annDetailItem != nil {
             if let labelFour = self.annTitle {
-                labelFour.text = annDetailItem?.annTitle
-                body.text = annDetailItem?.annBody
+                labelFour.text = annDetailItem?.title
+                body.text = annDetailItem?.body
                 body.numberOfLines = 0
-                date.text = "Announced on: " + (annDetailItem?.annDate)!
+                date.text = "Announced on: " + (annDetailItem?.date)!
                 
             }
         }
@@ -92,9 +90,9 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
         bgView.contentMode = .scaleAspectFill
         self.tableView.backgroundView = bgView
         
-        reportIssueView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-        reportIssueView.layer.cornerRadius = 10.0
-        reportIssueView.layer.masksToBounds = true
+        reportIssueButton.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        reportIssueButton.layer.cornerRadius = 10.0
+        reportIssueButton.layer.masksToBounds = true
         
         annTitle.textColor = UIColor.white
         titleView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
@@ -157,7 +155,7 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
             }
             
         case "Gmail":
-            let string = self.annDetailItem?.annTitle
+            let string = self.annDetailItem?.title
             let body = "There is an issue with this announcement: "
             let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
             let encodedString = string?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
@@ -184,7 +182,7 @@ class DetailTableViewController: UITableViewController, MFMailComposeViewControl
             
         case "Spark":
             
-            let string = self.annDetailItem?.annTitle
+            let string = self.annDetailItem?.title
             let body = "There is an issue with this announcement: "
             let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
             let encodedString = string?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)

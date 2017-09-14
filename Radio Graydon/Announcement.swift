@@ -7,13 +7,3 @@
 //
 
 import Foundation
-
-struct Announcement {
-    
-    let id: Int
-    let annTitle: String
-    let annBody: String
-    let annDate: String
-    let altAnnDate: String
-    
-}

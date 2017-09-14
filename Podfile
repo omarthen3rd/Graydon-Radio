@@ -6,7 +6,7 @@ target 'Radio Graydon' do
   use_frameworks!
 
   pod 'SwiftyJSON'
-  pod 'Alamofire', '~> 4.0'
+  pod 'Alamofire', '~> 4.5'
   pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift3'
 
 end

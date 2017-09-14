@@ -22,6 +22,12 @@ extension UIButton {
     }
 }
 
+extension UIColor {
+    
+    static let graydonColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+    
+}
+
 
 extension MasterViewController: UISearchResultsUpdating {
     
@@ -86,6 +92,16 @@ class Formatter {
     
 }
 
+struct Announcement {
+    
+    let id: Int
+    let title: String
+    let body: String
+    let date: String
+    let altDate: String
+    
+}
+
 class CustomTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -105,7 +121,7 @@ class CustomTableViewCell: UITableViewCell {
         bgView.layer.shadowRadius = 4.0
         bgView.layer.shadowPath = UIBezierPath(rect: bgView.bounds).cgPath
         
-        titleView.backgroundColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        titleView.backgroundColor = UIColor.graydonColor
         
         // let blurEffect = UIBlurEffect(style: .dark)
         // let newSelectedView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
@@ -122,7 +138,7 @@ class CustomTableViewCell: UITableViewCell {
 
 class MasterViewController: UITableViewController, UISearchBarDelegate {
 
-    var detailViewController: DetailTableViewController? = nil
+    var detailViewController: DetailViewController? = nil
     
     var idToUse = 0
     var didLoadAllAnnouncements = false
@@ -150,6 +166,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         var dataToPass: Announcement!
         
         setupTheme()
+        
         getAnns(25, idToUse) { (success) in
             
             if success {
@@ -158,10 +175,11 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                 
                 if let split = self.splitViewController {
                     let controllers = split.viewControllers
-                    self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailTableViewController
+                    self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
                     
-                    self.detailViewController?.annDetailItem = dataToPass
-                    print("ran this2: " + "\(dataToPass)")
+                    self.detailViewController?.announcement = dataToPass!
+                    
+                    
                 }
                 
             }
@@ -200,13 +218,13 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if !self.didLoadAllAnnouncements {
             
-            Alamofire.request(urlToUse).responseJSON { (Response) in
+            let prevAnns = self.announcements.count
+            
+            Alamofire.request(urlToUse).responseJSON(completionHandler: { (Response) in
                 
                 if let value = Response.result.value {
                     
                     let json = JSON(value)
-                    
-                    let prevAnns = self.announcements.count
                     
                     for ann in json.arrayValue {
                         
@@ -226,7 +244,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                         let displayStringCell = dateFormatterCell.string(from: ann["date"].date!)
                         self.tableDate.append(displayStringCell)
                         
-                        let newAnn: Announcement = Announcement(id: ann["id"].intValue, annTitle: ann["title"].stringValue, annBody: ann["body"].stringValue, annDate: displayString, altAnnDate: displayStringCell)
+                        let newAnn: Announcement = Announcement(id: ann["id"].intValue, title: ann["title"].stringValue, body: ann["body"].stringValue, date: displayString, altDate: displayStringCell)
                         self.announcements.append(newAnn)
                         
                     }
@@ -247,7 +265,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
                     
                 }
                 
-            }
+            })
             
         }
         
@@ -262,17 +280,41 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             controller.dimsBackgroundDuringPresentation = false
             controller.searchBar.sizeToFit()
             controller.searchBar.searchBarStyle = UISearchBarStyle.minimal
-            controller.searchBar.barTintColor = UIColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
-            controller.searchBar.isTranslucent = true
-            controller.searchBar.tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-            let textSearchBar = controller.searchBar.value(forKey: "searchField") as? UITextField
-            textSearchBar?.textColor = UIColor.black
-            let placeholderTextSearchBar = textSearchBar!.value(forKey: "placeholderLabel") as? UILabel
-            placeholderTextSearchBar?.textColor = UIColor.lightGray
-            let glassIconView = textSearchBar?.leftView as! UIImageView
-            glassIconView.tintColor = UIColor.lightGray
+            controller.searchBar.tintColor = UIColor.graydonColor
             
-            self.tableView.tableHeaderView = controller.searchBar
+            /*
+            
+            var frame = controller.searchBar.frame
+            frame.size.height = controller.searchBar.frame.size.height + 44
+            frame.origin.y = controller.searchBar.frame.origin.y - 22
+            
+            let blurryBG = UIView(frame: controller.searchBar.frame)
+            blurryBG.backgroundColor = UIColor.clear
+            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+            let blurView = UIVisualEffectView(effect: blurEffect)
+            blurView.frame = frame
+            blurryBG.addSubview(blurView)
+            
+            controller.searchBar.insertSubview(blurryBG, at: 0)
+            
+            */
+            
+            if #available(iOS 11.0, *) {
+                self.navigationItem.searchController = controller
+            } else {
+                
+                let textSearchBar = controller.searchBar.value(forKey: "searchField") as? UITextField
+                textSearchBar?.textColor = UIColor.lightGray
+                let placeholderTextSearchBar = textSearchBar!.value(forKey: "placeholderLabel") as? UILabel
+                placeholderTextSearchBar?.textColor = UIColor.lightGray
+                let glassIconView = textSearchBar?.leftView as! UIImageView
+                glassIconView.tintColor = UIColor.white
+                
+                let searchOffset = CGPoint(x: 0, y: 44)
+                tableView.setContentOffset(searchOffset, animated: false)
+                
+                self.tableView.tableHeaderView = controller.searchBar
+            }
             return controller
             
         })()
@@ -280,33 +322,46 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         definesPresentationContext = true
         
+        self.tableView.register(UINib(nibName: "AnnouncementCell", bundle: nil), forCellReuseIdentifier: "AnnouncementCell")
+        
         refreshControl = UIRefreshControl()
         refreshControl?.backgroundColor = UIColor.clear
-        refreshControl?.tintColor = UIColor.white // UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        refreshControl?.tintColor = UIColor.graydonColor
         refreshControl?.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
         tableView.addSubview(refreshControl!)
         
-        UINavigationBar.appearance().tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
-        navigationController?.navigationBar.barStyle = .default
-        UIApplication.shared.statusBarStyle = .default
+        // UINavigationBar.appearance().tintColor = UIColor(red:0.00, green:0.60, blue:0.00, alpha:1.0)
+        // navigationController?.navigationBar.barStyle = .default
+        // UIApplication.shared.statusBarStyle = .default
         
-        let searchOffset = CGPoint(x: 0, y: 44)
-        tableView.setContentOffset(searchOffset, animated: false)
-        
-        self.title = "Graydon Radio"
+        self.title = "Announcements"
         
         let bgImage = UIImage(named: "wall")
         let bgView = UIImageView(image: bgImage)
         bgView.image = bgImage?.applyBlurWithRadius(20, tintColor: UIColor(white:0.0, alpha:0.5), saturationDeltaFactor: 3)
         bgView.contentMode = .scaleAspectFill
-        self.tableView.backgroundView = bgView
+        // self.tableView.backgroundView = bgView
+        // self.tableView.backgroundColor = UIColor.graydonColor
+        
+    }
+    
+    func goToDetail() {
+        
+        let vc = self.storyboard!.instantiateViewController(withIdentifier: "DetailTableViewController2") as! DetailTableViewController2
+        let nav = UINavigationController(rootViewController: vc)
+        self.present(nav, animated: true) {
+            
+            
+            
+        }
+        
         
     }
     
     func filterContentForSearchText(searchText: String) {
         
         filteredAnnouncements = announcements.filter({ (announcement) -> Bool in
-            return announcement.annTitle.lowercased().contains(searchText.lowercased())
+            return announcement.title.lowercased().contains(searchText.lowercased())
         })
         self.tableView.reloadData()
         
@@ -402,6 +457,20 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let ann = announcements[indexPath.row]
+        let vc = self.storyboard!.instantiateViewController(withIdentifier: "DetailTableViewController2") as! DetailTableViewController2
+        vc.announcement = ann
+        let nav = UINavigationController(rootViewController: vc)
+        self.present(nav, animated: true) {
+            
+            
+            
+        }
+        
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -436,7 +505,7 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
         if indexPath.row < self.announcements.count {
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CustomTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AnnouncementCell", for: indexPath) as! AnnounementTableViewCell
             
             var announcement : Announcement
             
@@ -455,16 +524,15 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
             dateFormatter2.setLocalizedDateFormatFromTemplate("MMM d")
             let todayDate = dateFormatter2.string(from: today)
             
-            cell.titleLabel.text = announcement.annTitle
-            cell.detailLabel.text = announcement.annBody
-            cell.dateLabel.text = announcement.altAnnDate
+            cell.titleLabel.text = announcement.title
+            cell.dateLabel.text = announcement.altDate
+            cell.bodyLabel.text = announcement.body
             
             if cell.dateLabel.text == todayDate {
                 cell.dateLabel.text = "Today"
             }
             
-            cell.springBGView.animation = "fadeIn"
-            cell.springBGView.animate()
+
             
             return cell
             
@@ -474,24 +542,8 @@ class MasterViewController: UITableViewController, UISearchBarDelegate {
         
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        if self.resultSearchController.isActive {
-            self.resultSearchController.searchBar.searchBarStyle = UISearchBarStyle.default
-        }
-        if !(self.resultSearchController.isActive) {
-            self.resultSearchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
-            let textSearchBar = resultSearchController.searchBar.value(forKey: "searchField") as? UITextField
-            textSearchBar?.textColor = UIColor.black
-            let placeholderTextSearchBar = textSearchBar!.value(forKey: "placeholderLabel") as? UILabel
-            placeholderTextSearchBar?.textColor = UIColor.white
-            let glassIconView = textSearchBar?.leftView as! UIImageView
-            glassIconView.tintColor = UIColor.white
-        }
-        
-    }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 103
+        return 72
     }
     
     // MARK: - UISplitViewControllerDelegate
